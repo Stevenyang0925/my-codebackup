@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多格式文本转Markdown工具 - 原型</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "SF Pro Text", "Helvetica Neue", sans-serif;
+            transition: all 0.2s ease;
+        }
+        
+        body {
+            background-color: #FFFFFF;
+            color: #1D1D1F;
+            font-size: 14px;
+            line-height: 1.5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 暗色模式支持 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #2C2C2E;
+                color: #FFFFFF;
+            }
+            
+            .sidebar, .content-area, .status-area {
+                background-color: #1C1C1E;
+                border-color: #3A3A3C;
+            }
+            
+            .drop-area {
+                background-color: #3A3A3C;
+                border-color: #4A4A4C;
+            }
+            
+            .file-item {
+                background-color: #2C2C2E;
+                border-color: #3A3A3C;
+            }
+            
+            .file-item:hover {
+                background-color: #3A3A3C;
+            }
+            
+            .settings-panel {
+                background-color: #2C2C2E;
+                border-color: #3A3A3C;
+            }
+            
+            .settings-header {
+                background-color: #3A3A3C;
+            }
+            
+            input, select {
+                background-color: #3A3A3C;
+                color: #FFFFFF;
+                border-color: #4A4A4C;
+            }
+            
+            .secondary-button {
+                border-color: #4A4A4C;
+                color: #FFFFFF;
+            }
+            
+            .history-item {
+                border-color: #3A3A3C;
+            }
+            
+            .history-item:hover {
+                background-color: #3A3A3C;
+            }
+            
+            .toolbar {
+                background-color: rgba(28, 28, 30, 0.8);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-bottom: 1px solid #3A3A3C;
+            }
+            
+            .status-bar {
+                background-color: #1C1C1E;
+                border-top: 1px solid #3A3A3C;
+            }
+        }
+        
+        /* 主窗口布局 */
+        .app-container {
+            width: 1200px;
+            height: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        /* 菜单栏样式 */
+        .menu-bar {
+            height: 36px;
+            background-color: #F5F5F7;
+            border-bottom: 1px solid #D1D1D6;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            font-size: 13px;
+        }
+        
+        .menu-item {
+            position: relative;
+            padding: 0 12px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .menu-item:hover {
+            background-color: #E8E8ED;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #FFFFFF;
+            border: 1px solid #D1D1D6;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            min-width: 180px;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .menu-item:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .dropdown-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #F2F2F7;
+        }
+        
+        .shortcut {
+            color: #8E8E93;
+            font-size: 12px;
+            margin-left: 12px;
+        }
+        
+        .dropdown-divider {
+            height: 1px;
+            background-color: #E8E8ED;
+            margin: 4px 0;
+        }
+        
+        /* 修改内容区域的编辑模式 */
+        .preview-container.editable {
+            border: 1px dashed #007AFF;
+            background-color: #F9F9FC;
+        }
+        
+        .preview-container.editable:focus {
+            outline: none;
+            border: 1px solid #007AFF;
+        }
+        
+        /* 编辑工具栏 */
+        .edit-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding: 8px;
+            background-color: #F5F5F7;
+            border-radius: 6px;
+            flex-wrap: wrap;
+        }
+        
+        .edit-tool {
+            padding: 4px 8px;
+            background-color: #FFFFFF;
+            border: 1px solid #D1D1D6;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .edit-tool:hover {
+            background-color: #F2F2F7;
+        }
+        
+        /* 工具栏 */
+        .toolbar {
+            height: 48px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid #D1D1D6;
+        }
+        
+        .toolbar h1 {
+            font-size: 18px;
+            font-weight: 600;
+            flex-grow: 1;
+        }
+        
+        .toolbar-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        /* 主内容区域 */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        /* 左侧边栏 - 文件选择区 */
+        .sidebar {
+            width: 280px;
+            padding: 24px;
+            border-right: 1px solid #E8E8ED;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .sidebar h2 {
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .drop-area {
+            height: 200px;
+            background-color: #F5F5F7;
+            border: 2px dashed #D1D1D6;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+        
+        .drop-area:hover {
+            border-color: #007AFF;
+        }
+        
+        .drop-area.drag-over {
+            border: 2px dashed #007AFF;
+        }
+        
+        .drop-area i {
+            font-size: 48px;
+            color: #8E8E93;
+            margin-bottom: 12px;
+        }
+        
+        .file-list {
+            flex: 1;
+            overflow-y: auto;
+            margin: 16px 0;
+        }
+        
+        .file-item {
+            height: 48px;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border: 1px solid #E8E8ED;
+        }
+        
+        .file-item:hover {
+            background-color: #F2F2F7;
+        }
+        
+        .file-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            background-color: #8E8E93;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .file-name {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .file-remove {
+            cursor: pointer;
+            color: #8E8E93;
+        }
+        
+        .file-remove:hover {
+            color: #FF3B30;
+        }
+        
+        .batch-select {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #D1D1D6;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background: none;
+            font-size: 14px;
+            color: #1D1D1F;
+        }
+        
+        .batch-select:hover {
+            background-color: #F2F2F7;
+        }
+        
+        /* 中央区域 - 转换设置区 */
+        .content-area {
+            width: 600px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        
+        .content-area h2 {
+            font-size: 18px;
+            margin-bottom: 24px;
+        }
+        
+        .format-selection {
+            margin-bottom: 24px;
+        }
+        
+        .format-selection label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .format-selection select {
+            width: 240px;
+            height: 36px;
+            padding: 0 12px;
+            border: 1px solid #D1D1D6;
+            border-radius: 6px;
+            background-color: #FFFFFF;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+        }
+        
+        .settings-panel {
+            border: 1px solid #E8E8ED;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+        
+        .settings-header {
+            height: 40px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #F5F5F7;
+            cursor: pointer;
+        }
+        
+        .settings-header:hover {
+            background-color: #E8E8ED;
+        }
+        
+        .settings-header h3 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .settings-header i {
+            transition: transform 0.3s ease;
+        }
+        
+        .settings-panel.expanded .settings-header i {
+            transform: rotate(180deg);
+        }
+        
+        .settings-content {
+            padding: 16px;
+            display: none;
+        }
+        
+        .settings-panel.expanded .settings-content {
+            display: block;
+        }
+        
+        .settings-group {
+            margin-bottom: 16px;
+        }
+        
+        .settings-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .settings-group h4 {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .slider {
+            flex: 1;
+            height: 4px;
+            background-color: #E8E8ED;
+            border-radius: 2px;
+            position: relative;
+        }
+        
+        .slider-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            background-color: #007AFF;
+            border-radius: 2px;
+        }
+        
+        .slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 16px;
+            height: 16px;
+            background-color: #FFFFFF;
+            border: 1px solid #007AFF;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .slider-value {
+            margin-left: 16px;
+            width: 40px;
+            text-align: center;
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .checkbox-container:last-child {
+            margin-bottom: 0;
+        }
+        
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        
+        .input-group {
+            margin-bottom: 8px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            height: 36px;
+            padding: 0 12px;
+            border: 1px solid #D1D1D6;
+            border-radius: 6px;
+        }
+        
+        .output-path {
+            margin-top: 24px;
+        }
+        
+        .output-path h3 {
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        .path-input-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .path-input-group input {
+            flex: 1;
+            height: 36px;
+            padding: 0 12px;
+            border: 1px solid #D1D1D6;
+            border-radius: 6px 0 0 6px;
+            border-right: none;
+        }
+        
+        .path-input-group button {
+            height: 36px;
+            padding: 0 16px;
+            border: 1px solid #D1D1D6;
+            border-radius: 0 6px 6px 0;
+            background-color: #F5F5F7;
+            cursor: pointer;
+        }
+        
+        .path-input-group button:hover {
+            background-color: #E8E8ED;
+        }
+        
+        /* 右侧边栏 - 操作与状态区 */
+        .status-area {
+            width: 300px;
+            padding: 24px;
+            border-left: 1px solid #E8E8ED;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .action-button {
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #007AFF;
+            color: #FFFFFF;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 24px;
+            border: none;
+        }
+        
+        .action-button:hover {
+            background-color: rgba(0, 122, 255, 0.9);
+            transform: scale(0.98);
+        }
+        
+        .progress-container {
+            margin-bottom: 24px;
+        }
+        
+        .progress-container h3 {
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #E8E8ED;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background-color: #30D158;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .history {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .history h3 {
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        
+        .history-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            padding: 12px;
+            border-bottom: 1px solid #E8E8ED;
+            cursor: pointer;
+        }
+        
+        .history-item:hover {
+            background-color: #F2F2F7;
+        }
+        
+        .history-item-time {
+            font-size: 12px;
+            color: #8E8E93;
+            margin-bottom: 4px;
+        }
+        
+        .history-item-file {
+            font-weight: 500;
+        }
+        
+        /* 状态栏 */
+        .status-bar {
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            background-color: #F5F5F7;
+            font-size: 12px;
+            color: #8E8E93;
+            border-top: 1px solid #E8E8ED;
+        }
+        
+        .shortcut-hints {
+            display: flex;
+        }
+        
+        .shortcut-hint {
+            margin-right: 16px;
+        }
+        
+        .shortcut-hint kbd {
+            background-color: #FFFFFF;
+            border: 1px solid #D1D1D6;
+            border-radius: 3px;
+            padding: 1px 3px;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Mono", monospace;
+        }
+        
+        /* 辅助类 */
+        .primary-button {
+            background-color: #007AFF;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        
+        .primary-button:hover {
+            background-color: rgba(0, 122, 255, 0.9);
+            transform: scale(0.98);
+        }
+        
+        .secondary-button {
+            background-color: transparent;
+            color: #1D1D1F;
+            border: 1px solid #D1D1D6;
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        
+        .secondary-button:hover {
+            background-color: #F2F2F7;
+            transform: scale(0.98);
+        }
+        
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            width: 400px;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #E8E8ED;
+        }
+        
+        .modal-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #FF3B30;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFFFFF;
+            margin-right: 12px;
+        }
+        
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .modal-body {
+            padding: 16px;
+        }
+        
+        .modal-footer {
+            padding: 16px;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid #E8E8ED;
+        }
+        
+        .modal-button {
+            margin-left: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 菜单栏 -->
+        <div class="menu-bar">
+            <div class="menu-item">
+                文件
+                <div class="dropdown-menu">
+                    <div class="dropdown-item" id="menu-new">新建 <span class="shortcut">Win+N</span></div>
+                    <div class="dropdown-item" id="menu-open">打开 <span class="shortcut">Win+O</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="menu-save">保存 <span class="shortcut">Win+S</span></div>
+                    <div class="dropdown-item" id="menu-saveas">另存为 <span class="shortcut">Win+Shift+S</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="menu-export">导出 <span class="shortcut">Win+E</span></div>
+                </div>
+            </div>
+            <div class="menu-item">
+                编辑
+                <div class="dropdown-menu">
+                    <div class="dropdown-item" id="menu-undo">撤销 <span class="shortcut">Win+Z</span></div>
+                    <div class="dropdown-item" id="menu-redo">重做 <span class="shortcut">Win+Y</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="menu-cut">剪切 <span class="shortcut">Win+X</span></div>
+                    <div class="dropdown-item" id="menu-copy">复制 <span class="shortcut">Win+C</span></div>
+                    <div class="dropdown-item" id="menu-paste">粘贴 <span class="shortcut">Win+V</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="menu-find">查找 <span class="shortcut">Win+F</span></div>
+                    <div class="dropdown-item" id="menu-replace">替换 <span class="shortcut">Win+H</span></div>
+                </div>
+            </div>
+            <div class="menu-item">
+                视图
+                <div class="dropdown-menu">
+                    <div class="dropdown-item" id="menu-preview">预览模式 <span class="shortcut">Win+P</span></div>
+                    <div class="dropdown-item" id="menu-edit">编辑模式 <span class="shortcut">Win+E</span></div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="menu-zoom-in">放大 <span class="shortcut">Win+加号</span></div>
+                    <div class="dropdown-item" id="menu-zoom-out">缩小 <span class="shortcut">Win+减号</span></div>
+                </div>
+            </div>
+            <div class="menu-item">
+                帮助
+                <div class="dropdown-menu">
+                    <div class="dropdown-item" id="menu-docs">使用文档</div>
+                    <div class="dropdown-item" id="menu-about">关于</div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="toolbar">
+            <h1>多格式文本转Markdown工具</h1>
+            <div class="toolbar-actions">
+                <button class="secondary-button" id="openMarkdownBtn">打开Markdown</button>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- 左侧边栏 - 文件选择区 -->
+            <div class="sidebar">
+                <h2>选择文件</h2>
+                <div class="drop-area" id="dropArea">
+                    <i>📁</i>
+                    <p>拖拽文件到此处</p>
+                    <p>或</p>
+                    <button class="secondary-button" style="margin-top: 8px;">选择文件</button>
+                </div>
+                
+                <div class="file-list">
+                    <div class="file-item">
+                        <div class="file-icon">W</div>
+                        <div class="file-name">项目计划书.docx</div>
+                        <div class="file-remove">✕</div>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-icon">E</div>
+                        <div class="file-name">数据分析报告.xlsx</div>
+                        <div class="file-remove">✕</div>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-icon">T</div>
+                        <div class="file-name">会议记录.txt</div>
+                        <div class="file-remove">✕</div>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-icon">P</div>
+                        <div class="file-name">技术白皮书.pdf</div>
+                        <div class="file-remove">✕</div>
+                    </div>
+                    <div class="file-item">
+                        <div class="file-icon">I</div>
+                        <div class="file-name">产品截图.png</div>
+                        <div class="file-remove">✕</div>
+                    </div>
+                </div>
+                
+                <button class="secondary-button" style="width:100%; margin-bottom: 8px;">导入文件</button>
+                <button class="batch-select">批量选择</button>
+            </div>
+            
+            <!-- 中央区域 - 转换设置区 -->
+            <div class="content-area">
+                <h2>转换设置</h2>
+                
+                <div class="format-selection">
+                    <label for="format">输出格式：</label>
+                    <select id="format">
+                        <option value="markdown">Markdown</option>
+                    </select>
+                </div>
+                
+                <div class="settings-panel expanded">
+                    <div class="settings-header">
+                        <h3>图片处理选项</h3>
+                        <i>▼</i>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-group">
+                            <h4>图片压缩质量</h4>
+                            <div class="slider-container">
+                                <div class="slider">
+                                    <div class="slider-fill"></div>
+                                    <div class="slider-handle"></div>
+                                </div>
+                                <div class="slider-value">50%</div>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <h4>图床API设置</h4>
+                            <div class="input-group">
+                                <label for="api-url">API地址</label>
+                                <input type="text" id="api-url" placeholder="https://api.example.com/upload">
+                            </div>
+                            <div class="input-group">
+                                <label for="api-key">API密钥</label>
+                                <input type="text" id="api-key" placeholder="输入您的API密钥">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-panel">
+                    <div class="settings-header">
+                        <h3>表格转换规则</h3>
+                        <i>▼</i>
+                    </div>
+                    <div class="settings-content">
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="preserve-borders" checked>
+                            <label for="preserve-borders">保留表格边框</label>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="auto-align" checked>
+                            <label for="auto-align">自动对齐表格内容</label>
+                        </div>
+                        <div class="checkbox-container">
+                            <input type="checkbox" id="first-row-header" checked>
+                            <label for="first-row-header">将第一行作为表头</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="output-path">
+                    <h3>输出路径</h3>
+                    <div class="path-input-group">
+                        <input type="text" placeholder="选择保存位置" value="C:\Users\Username\Documents">
+                        <button>浏览</button>
+                    </div>
+                    <div class="file-name-group" style="margin-top: 12px;">
+                        <label for="file-name" style="display: block; margin-bottom: 4px;">文件名：</label>
+                        <input type="text" id="file-name" placeholder="输入文件名" value="转换结果.md" style="width: 100%; height: 36px; padding: 0 12px; border: 1px solid #D1D1D6; border-radius: 6px;">
+                    </div>
+                </div>
+
+                <!-- Markdown预览区域 -->
+                <div class="markdown-preview" style="margin-top: 24px; display: none;">
+                    <h3>Markdown编辑器</h3>
+                    
+                    <!-- 编辑工具栏 -->
+                    <div class="edit-toolbar">
+                        <div class="edit-tool" data-format="h1">标题1</div>
+                        <div class="edit-tool" data-format="h2">标题2</div>
+                        <div class="edit-tool" data-format="h3">标题3</div>
+                        <div class="edit-tool" data-format="bold">粗体</div>
+                        <div class="edit-tool" data-format="italic">斜体</div>
+                        <div class="edit-tool" data-format="ul">无序列表</div>
+                        <div class="edit-tool" data-format="ol">有序列表</div>
+                        <div class="edit-tool" data-format="link">链接</div>
+                        <div class="edit-tool" data-format="image">图片</div>
+                        <div class="edit-tool" data-format="code">代码块</div>
+                        <div class="edit-tool" data-format="quote">引用</div>
+                        <div class="edit-tool" data-format="table">表格</div>
+                    </div>
+                    
+                    <div class="preview-container editable" contenteditable="true" style="margin-top: 12px; padding: 16px; border: 1px solid #E8E8ED; border-radius: 8px; max-height: 300px; overflow-y: auto; font-family: monospace; white-space: pre-wrap;">
+# 预览内容
+
+这里将显示打开的Markdown文件内容或转换的预览结果。
+
+## 二级标题示例
+
+- 列表项1
+- 列表项2
+- 列表项3
+
+> 引用文本示例
+
+```python
+# 代码块示例
+def hello_world():
+    print("Hello, World!")
+```
+</div>
+                </div>
+            </div>
+            
+            <!-- 右侧边栏 - 操作与状态区 -->
+            <div class="status-area">
+                <button class="action-button">开始转换</button>
+                
+                <div class="action-buttons" style="display: flex; gap: 8px; margin-bottom: 24px;">
+                    <button class="secondary-button" style="flex: 1;">预览</button>
+                    <button class="secondary-button" style="flex: 1;">保存</button>
+                </div>
+                
+                <div class="progress-container">
+                    <h3>转换进度</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%;"></div>
+                    </div>
+                </div>
+                
+                <div class="history">
+                    <h3>历史记录</h3>
+                    <div class="history-list">
+                        <div class="history-item">
+                            <div class="history-item-time">2023-03-26 10:45</div>
+                            <div class="history-item-file">项目计划书.md</div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-item-time">2023-03-25 16:30</div>
+                            <div class="history-item-file">数据分析报告.md</div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-item-time">2023-03-24 14:15</div>
+                            <div class="history-item-file">会议记录.md</div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-item-time">2023-03-23 09:20</div>
+                            <div class="history-item-file">技术白皮书.md</div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-item-time">2023-03-22 11:05</div>
+                            <div class="history-item-file">产品说明.md</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-bar">
+            <div class="shortcut-hints">
+                <div class="shortcut-hint"><kbd>Win</kbd>+<kbd>O</kbd> 打开文件</div>
+                <div class="shortcut-hint"><kbd>Win</kbd>+<kbd>S</kbd> 快速保存</div>
+            </div>
+            <div class="status-text">就绪</div>
+        </div>
+    </div>
+    
+    <!-- 弹窗示例 (默认隐藏) -->
+    <div class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">!</div>
+                <div class="modal-title">不支持的文件格式</div>
+            </div>
+            <div class="modal-body">
+                <p>您选择的文件 "example.zip" 格式不受支持。请选择以下格式之一：</p>
+                <ul style="margin-top: 8px; padding-left: 24px;">
+                    <li>Word文档 (.docx)</li>
+                    <li>Excel表格 (.xlsx)</li>
+                    <li>文本文件 (.txt)</li>
+                    <li>PDF文档 (.pdf)</li>
+                    <li>图片文件 (.jpg, .png等)</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-button modal-button">取消</button>
+                <button class="primary-button modal-button">重新选择</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 添加简单的交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 面板展开/折叠
+            const panels = document.querySelectorAll('.settings-panel');
+            panels.forEach(panel => {
+                const header = panel.querySelector('.settings-header');
+                header.addEventListener('click', () => {
+                    panel.classList.toggle('expanded');
+                });
+            });
+            
+            // 拖拽文件区域效果
+            const dropArea = document.getElementById('dropArea');
+            dropArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropArea.classList.add('drag-over');
+            });
+            
+            dropArea.addEventListener('dragleave', () => {
+                dropArea.classList.remove('drag-over');
+            });
+            
+            dropArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropArea.classList.remove('drag-over');
+                // 这里可以添加文件处理逻辑
+            });
+            
+            // 进度条动画演示
+            let progress = 30;
+            const progressFill = document.querySelector('.progress-fill');
+            setInterval(() => {
+                progress = (progress + 5) % 100;
+                progressFill.style.width = `${progress}%`;
+            }, 2000);
+            
+            // 移除文件功能
+            const removeButtons = document.querySelectorAll('.file-remove');
+            removeButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const fileItem = button.parentElement;
+                    fileItem.style.opacity = '0';
+                    setTimeout(() => {
+                        fileItem.remove();
+                    }, 200);
+                });
+            });
+            
+            // 打开Markdown文件按钮点击事件
+            const openMarkdownBtn = document.getElementById('openMarkdownBtn');
+            if(openMarkdownBtn) {
+                openMarkdownBtn.addEventListener('click', openMarkdownFile);
+            }
+            
+            // 预览按钮点击事件
+            const previewBtn = document.querySelector('.action-buttons .secondary-button:first-child');
+            if(previewBtn) {
+                previewBtn.addEventListener('click', previewMarkdown);
+            }
+            
+            // 保存按钮点击事件
+            const saveBtn = document.querySelector('.action-buttons .secondary-button:last-child');
+            if(saveBtn) {
+                saveBtn.addEventListener('click', saveMarkdownFile);
+            }
+            
+            // 菜单事件处理
+            document.getElementById('menu-new').addEventListener('click', createNewMarkdown);
+            document.getElementById('menu-open').addEventListener('click', openMarkdownFile);
+            document.getElementById('menu-save').addEventListener('click', saveMarkdownFile);
+            document.getElementById('menu-saveas').addEventListener('click', saveMarkdownAs);
+            document.getElementById('menu-preview').addEventListener('click', togglePreviewMode);
+            document.getElementById('menu-edit').addEventListener('click', toggleEditMode);
+            
+            // 编辑工具栏事件处理
+            const editTools = document.querySelectorAll('.edit-tool');
+            editTools.forEach(tool => {
+                tool.addEventListener('click', () => {
+                    const format = tool.getAttribute('data-format');
+                    applyFormatting(format);
+                });
+            });
+            
+            // 当前文件名
+            let currentFileName = '未命名.md';
+            let isModified = false;
+            
+            // 函数: 创建新的Markdown文件
+            function createNewMarkdown() {
+                if (isModified) {
+                    if (!confirm('当前文件未保存，是否继续?')) {
+                        return;
+                    }
+                }
+                
+                const previewArea = document.querySelector('.markdown-preview');
+                previewArea.style.display = 'block';
+                
+                const previewContainer = document.querySelector('.preview-container');
+                previewContainer.innerHTML = `# 新文档
+
+开始编写您的Markdown内容...`;
+                
+                currentFileName = '未命名.md';
+                document.getElementById('file-name').value = currentFileName;
+                isModified = false;
+                
+                // 切换到编辑模式
+                toggleEditMode();
+            }
+            
+            // 函数: 打开Markdown文件
+            function openMarkdownFile() {
+                if (isModified) {
+                    if (!confirm('当前文件未保存，是否继续?')) {
+                        return;
+                    }
+                }
+                
+                // 在实际应用中，这里会触发文件选择对话框
+                // 示例中我们模拟显示预览区域
+                const previewArea = document.querySelector('.markdown-preview');
+                previewArea.style.display = 'block';
+                
+                // 模拟加载MD文件内容
+                const previewContainer = document.querySelector('.preview-container');
+                previewContainer.innerHTML = `# 示例Markdown文件
+
+这是一个从文件中加载的Markdown内容示例。
+
+## 功能列表
+
+- 支持Word、Excel、TXT、PDF和图片格式转换
+- 可以自定义输出路径
+- 提供预览功能
+- 支持打开和编辑已有的Markdown文件
+
+## 表格示例
+
+| 文件类型 | 扩展名 | 支持状态 |
+|---------|-------|---------|
+| Word文档 | .docx | ✅ 支持 |
+| Excel表格 | .xlsx | ✅ 支持 |
+| 文本文件 | .txt | ✅ 支持 |
+| PDF文档 | .pdf | ✅ 支持 |
+| 图片文件 | .jpg, .png | ✅ 支持 |
+
+> 注意：这只是一个UI原型，实际功能将在完整应用中实现。`;
+                
+                // 模拟文件名
+                currentFileName = '示例文档.md';
+                document.getElementById('file-name').value = currentFileName;
+                isModified = false;
+                
+                // 切换到编辑模式
+                toggleEditMode();
+            }
+            
+            // 函数: 预览Markdown
+            function previewMarkdown() {
+                const previewArea = document.querySelector('.markdown-preview');
+                previewArea.style.display = 'block';
+                
+                // 模拟预览转换结果
+                const previewContainer = document.querySelector('.preview-container');
+                previewContainer.innerHTML = `# 转换预览结果
+
+这是从选择的文件中生成的Markdown预览内容。
+
+## 文档内容
+
+从您选择的文件中提取的内容将显示在这里，格式化为Markdown。
+这允许您在保存之前查看转换结果，并根据需要进行调整。
+
+## 支持的格式特性
+
+- 标题和段落
+- **粗体** 和 *斜体* 文本
+- 有序和无序列表
+- 表格和代码块
+- 图片和链接
+
+## 下一步
+
+如果预览结果符合预期，您可以点击"保存"按钮将内容保存为Markdown文件。`;
+                
+                // 切换到预览模式
+                togglePreviewMode();
+            }
+            
+            // 函数: 保存Markdown文件
+            function saveMarkdownFile() {
+                const fileName = document.getElementById('file-name').value;
+                const path = document.querySelector('.path-input-group input').value;
+                
+                // 模拟保存对话框
+                alert(`文件已保存:\n${path}\\${fileName}`);
+                
+                currentFileName = fileName;
+                isModified = false;
+            }
+            
+            // 函数: 另存为Markdown文件
+            function saveMarkdownAs() {
+                // 在实际应用中，这里会触发保存对话框
+                const fileName = prompt('请输入文件名:', currentFileName);
+                if (!fileName) return;
+                
+                const path = document.querySelector('.path-input-group input').value;
+                document.getElementById('file-name').value = fileName;
+                
+                // 模拟保存对话框
+                alert(`文件已另存为:\n${path}\\${fileName}`);
+                
+                currentFileName = fileName;
+                isModified = false;
+            }
+            
+            // 函数: 切换到预览模式
+            function togglePreviewMode() {
+                const previewContainer = document.querySelector('.preview-container');
+                previewContainer.setAttribute('contenteditable', 'false');
+                previewContainer.classList.remove('editable');
+                
+                // 隐藏编辑工具栏
+                document.querySelector('.edit-toolbar').style.display = 'none';
+                document.querySelector('.markdown-preview h3').textContent = 'Markdown预览';
+            }
+            
+            // 函数: 切换到编辑模式
+            function toggleEditMode() {
+                const previewContainer = document.querySelector('.preview-container');
+                previewContainer.setAttribute('contenteditable', 'true');
+                previewContainer.classList.add('editable');
+                
+                // 显示编辑工具栏
+                document.querySelector('.edit-toolbar').style.display = 'flex';
+                document.querySelector('.markdown-preview h3').textContent = 'Markdown编辑器';
+                
+                // 监听内容变更
+                previewContainer.addEventListener('input', () => {
+                    isModified = true;
+                });
+            }
+            
+            // 函数: 应用格式化
+            function applyFormatting(format) {
+                const previewContainer = document.querySelector('.preview-container');
+                const selection = window.getSelection();
+                const selectedText = selection.toString();
+                
+                if (!previewContainer.contains(selection.anchorNode)) {
+                    return;
+                }
+                
+                let formattedText = '';
+                
+                switch(format) {
+                    case 'h1':
+                        formattedText = `# ${selectedText}`;
+                        break;
+                    case 'h2':
+                        formattedText = `## ${selectedText}`;
+                        break;
+                    case 'h3':
+                        formattedText = `### ${selectedText}`;
+                        break;
+                    case 'bold':
+                        formattedText = `**${selectedText}**`;
+                        break;
+                    case 'italic':
+                        formattedText = `*${selectedText}*`;
+                        break;
+                    case 'ul':
+                        formattedText = selectedText.split('\n').map(line => `- ${line}`).join('\n');
+                        break;
+                    case 'ol':
+                        formattedText = selectedText.split('\n').map((line, index) => `${index + 1}. ${line}`).join('\n');
+                        break;
+                    case 'link':
+                        formattedText = `[${selectedText}](链接URL)`;
+                        break;
+                    case 'image':
+                        formattedText = `![${selectedText}](图片URL)`;
+                        break;
+                    case 'code':
+                        formattedText = `\`\`\`\n${selectedText}\n\`\`\``;
+                        break;
+                    case 'quote':
+                        formattedText = selectedText.split('\n').map(line => `> ${line}`).join('\n');
+                        break;
+                    case 'table':
+                        formattedText = `| 列1 | 列2 | 列3 |\n|-----|-----|-----|\n| 内容 | 内容 | 内容 |`;
+                        break;
+                }
+                
+                if (formattedText && selection.rangeCount) {
+                    document.execCommand('insertText', false, formattedText);
+                    isModified = true;
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
