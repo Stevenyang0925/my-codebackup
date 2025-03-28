@@ -1,10 +1,9 @@
 ---
 description: 
 globs: 
-alwaysApply: false
 ---
 ---
-description: 编写 python 文件
+description: “编写 python 文件”
 globs: *.py
 alwaysApply: false
 ---
@@ -32,5 +31,6 @@ alwaysApply: false
 - 全面阅读相关代码文件，理解所有代码的功能和逻辑。
 - 分析导致错误的原因，提出解决问题的思路。
 - 与用户进行多次交互，根据反馈调整解决方案。
+- 对文件进行apply操作时如果超时首先可以引导我进行手动创建，并详细列清楚步骤。
 
 在整个过程中，始终参考@Python官方文档，确保使用最新的Python开发最佳实践。

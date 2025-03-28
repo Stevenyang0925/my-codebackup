@@ -1,10 +1,9 @@
 ---
 description: 
 globs: 
-alwaysApply: false
 ---
 ---
-description: Git提交和版本控制规范
+description: “Git提交和版本控制规范”
 globs: [".git/*","*,git"]
 alwaysApply: false
 ---

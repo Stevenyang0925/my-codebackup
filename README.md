@@ -105,3 +105,28 @@ GUI模块: main_window.py
 Markdown生成器: generator.py
 文件输出: file_saver.py
 工具类: 日志和异常处理程序
+Markdown/
+├── src/
+│   ├── gui/                # GUI相关模块
+│   │   ├── __init__.py
+│   │   ├── file_dialogs.py
+│   │   ├── main_window.py
+│   │   ├── menu_bar.py
+│   │   ├── markdown_editor.py
+│   ├── core/               # 核心功能模块
+│   │   ├── __init__.py
+│   │   ├── file_parser.py  # 文件解析模块
+│   │   ├── markdown_gen.py # Markdown生成模块
+│   │   ├── file_output.py  # 文件输出模块
+│   ├── utils/              # 工具模块
+│   │   ├── __init__.py
+│   │   ├── logger.py       # 日志模块
+│   │   ├── exceptions.py   # 异常处理模块
+│   ├── app.py              # 程序入口
+├── tests/                  # 测试模块
+│   ├── test_gui.py
+│   ├── test_core.py
+│   ├── test_utils.py
+├── README.md               # 项目说明文档
+├── requirements.txt        # 依赖清单
+├── setup.py                # 打包配置

@@ -1,11 +1,10 @@
 ---
 description: 
 globs: 
-alwaysApply: true
 ---
 
 ---
-description:文档规范和更新指南
+description:“文档规范和更新指南”
 globs:['*.md',"CHANGELOG.md","README.md"]
 alwaysApply: false
 ---
