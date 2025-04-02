@@ -1,0 +1,250 @@
+2025-04-01 08:22:06 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:22:06 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-01 08:22:06 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:22:06 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:22:06 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-01 08:22:06 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:22:06 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-01 08:22:13 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:22:13 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:22:13 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-01 08:22:13 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:22:13 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-01 08:22:13 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:22:13 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:22:13 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-01 08:22:13 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:22:13 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-01 08:22:13 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:22:13 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:22:13 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-01 08:22:13 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:22:13 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-01 08:22:14 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:22:14 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:22:14 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-01 08:25:41 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:25:41 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-01 08:25:42 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:25:42 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:25:42 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-01 08:25:42 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:25:42 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-01 08:25:49 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:25:49 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:25:49 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-01 08:25:49 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:25:49 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-01 08:25:49 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:25:49 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:25:49 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-01 08:25:49 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:25:49 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-01 08:25:50 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:25:50 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:25:50 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-01 08:25:50 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:25:50 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-01 08:25:52 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:25:52 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:25:52 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-01 08:29:40 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:29:40 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-01 08:29:40 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:29:40 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:29:40 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-01 08:29:40 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:29:40 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-01 08:29:42 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:29:42 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:29:42 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-01 08:29:42 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:29:42 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-01 08:29:42 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:29:42 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:29:42 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-01 08:29:42 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:29:42 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-01 08:29:43 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:29:43 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:29:43 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-01 08:29:43 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:29:43 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-01 08:29:43 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:29:43 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:29:43 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-01 08:35:11 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:35:11 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-01 08:35:11 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:35:11 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:35:11 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-01 08:35:11 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:35:11 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-01 08:35:15 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:35:15 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:35:15 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-01 08:35:15 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:35:15 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-01 08:35:15 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:35:15 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:35:15 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-01 08:35:15 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:35:15 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-01 08:35:15 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:35:15 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:35:15 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-01 08:35:15 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:35:15 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-01 08:35:15 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:35:15 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:35:15 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-01 08:40:08 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:40:08 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-01 08:40:08 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:40:08 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:40:08 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-01 08:40:08 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:40:08 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-01 08:40:10 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:40:10 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:40:10 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-01 08:40:10 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:40:10 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-01 08:40:10 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:40:10 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:40:10 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-01 08:40:10 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:40:10 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-01 08:40:11 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:40:11 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:40:11 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-01 08:40:11 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:40:11 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-01 08:40:11 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:40:11 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:40:11 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-01 08:41:22 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:41:22 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-01 08:41:22 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 08:41:22 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:41:22 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-01 08:41:22 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:41:22 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-01 08:41:25 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 08:41:25 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:41:25 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-01 08:41:25 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:41:25 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-01 08:41:25 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 08:41:25 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:41:25 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-01 08:41:25 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:41:25 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-01 08:41:25 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 08:41:25 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:41:25 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-01 08:41:25 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:41:25 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-01 08:41:25 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 08:41:25 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 08:41:25 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-01 12:37:08 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 12:37:08 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-01 12:37:09 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 12:37:09 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:37:09 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-01 12:37:09 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 12:37:09 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-01 12:37:15 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 12:37:15 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:37:15 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-01 12:37:15 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 12:37:15 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-01 12:37:15 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 12:37:15 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:37:15 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-01 12:37:15 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 12:37:15 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-01 12:37:15 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 12:37:15 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:37:15 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-01 12:37:15 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 12:37:15 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-01 12:37:17 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 12:37:17 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:37:17 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-01 12:42:23 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 12:42:23 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-01 12:42:23 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 12:42:23 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:42:23 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-01 12:42:23 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 12:42:23 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-01 12:42:25 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 12:42:25 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:42:25 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-01 12:42:25 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 12:42:25 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-01 12:42:25 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 12:42:25 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:42:25 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-01 12:42:25 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 12:42:25 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-01 12:42:25 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 12:42:25 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:42:25 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-01 12:42:25 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 12:42:25 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-01 12:42:25 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 12:42:25 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:42:25 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-01 12:47:42 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 12:47:42 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-01 12:47:42 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 12:47:42 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:47:42 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-01 12:47:42 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 12:47:42 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-01 12:47:44 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 12:47:44 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:47:44 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-01 12:47:44 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 12:47:44 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-01 12:47:44 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 12:47:44 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:47:44 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-01 12:47:44 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 12:47:44 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-01 12:47:44 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 12:47:44 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:47:44 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-01 12:47:44 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 12:47:44 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-01 12:47:44 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 12:47:44 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:47:44 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-01 12:53:37 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 12:53:37 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-01 12:53:38 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-01 12:53:38 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:53:38 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-01 12:53:38 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 12:53:38 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-01 12:53:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-01 12:53:39 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:53:39 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-01 12:53:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 12:53:39 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-01 12:53:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-01 12:53:39 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:53:39 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-01 12:53:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 12:53:39 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-01 12:53:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-01 12:53:39 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:53:39 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-01 12:53:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 12:53:39 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-01 12:53:40 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-01 12:53:40 - markdown_converter - INFO - Markdown生成完成
+2025-04-01 12:53:40 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md

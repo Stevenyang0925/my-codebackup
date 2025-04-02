@@ -1,0 +1,133 @@
+1. 标题清理
+问题：标题清理逻辑可以进一步优化，确保标题级别不超过6级，并且标题与内容之间有一个空行。
+优化建议：
+if title:
+    # 清理标题中可能存在的多余#符号和空格
+    title = re.sub(r'^#+\s*', '', title).strip()
+    # 确保标题级别不超过6级
+    level = min(6, max(1, parsed_data.get("title_level", 1)))
+    markdown_lines.append(f"{'#' * level} {title}")
+    markdown_lines.append("")
+2. 段落处理
+问题：段落处理逻辑可以简化，确保段落之间只有一个空行，并且移除段落内的多余换行。
+优化建议：
+elif item_type == "text":
+    if not item_content.strip():
+        continue
+    # 确保段落之间有空行
+    paragraphs = re.split(r'\n{2,}', item_content)
+    for paragraph in paragraphs:
+        if paragraph.strip():
+            markdown_lines.append(paragraph.strip())
+            markdown_lines.append("")
+3. 列表处理
+问题：列表处理逻辑可以进一步优化，确保列表项之间没有多余的空行，并且序号从1开始。
+优化建议：
+elif item_type == "list":
+    list_items = item.get("additional_info", [])
+    list_type = item.get("list_type", "unordered")
+    
+    for i, list_item in enumerate(list_items):
+        if list_type == "ordered":
+            markdown_lines.append(f"{i+1}. {list_item}")
+        else:
+            markdown_lines.append(f"- {list_item}")
+    markdown_lines.append("")
+4. 表格处理
+问题：表格处理逻辑可以进一步优化，确保表头和分隔线正确，并且表格内容对齐。
+优化建议：
+elif item_type == "table":
+    table_data = item.get("additional_info", [])
+    if table_data and len(table_data) > 0:
+        # 表头
+        header = table_data[0]
+        markdown_lines.append("| " + " | ".join(str(cell) for cell in header) + " |")
+        
+        # 分隔线 (对齐方式: 默认左对齐)
+        markdown_lines.append("| " + " | ".join(["---"] * len(header)) + " |")
+        
+        # 表格内容
+        for row in table_data[1:]:
+            markdown_lines.append("| " + " | ".join(str(cell) for cell in row) + " |")
+        markdown_lines.append("")
+5. 图片处理
+问题：图片处理逻辑可以进一步优化，确保图片路径和alt文本中的特殊字符被正确转义。
+优化建议：
+elif item_type == "image":
+    image_path = item.get("additional_info", "")
+    alt_text = item_content or "图片"
+    if image_path:
+        # 确保alt文本和图片路径中的特殊字符被正确转义
+        alt_text = alt_text.replace("[", "\\[").replace("]", "\\]")
+        image_path = image_path.replace("(", "\\(").replace(")", "\\)")
+        markdown_lines.append(f"![{alt_text}]({image_path})")
+        markdown_lines.append("")
+6. 代码块处理
+问题：代码块处理逻辑可以进一步优化，确保代码块的格式正确。
+优化建议：
+elif item_type == "code":
+    code_content = item.get("additional_info", "")
+    language = item.get("language", "")
+    
+    if code_content:
+        markdown_lines.append(f"```{language}")
+        markdown_lines.append(code_content.rstrip())
+        markdown_lines.append("```")
+        markdown_lines.append("")
+7. 链接处理
+问题：链接处理逻辑可以进一步优化，确保链接文本和URL中的特殊字符被正确转义。
+优化建议：
+elif item_type == "link":
+    link_url = item.get("additional_info", "")
+    link_text = item_content or link_url
+    if link_url:
+        # 确保链接文本和URL中的特殊字符被正确转义
+        link_text = link_text.replace("[", "\\[").replace("]", "\\]")
+        link_url = link_url.replace("(", "\\(").replace(")", "\\)")
+        markdown_lines.append(f"[{link_text}]({link_url})")
+        markdown_lines.append("")
+8. 引用处理
+问题：引用处理逻辑可以进一步优化，确保引用内容的格式正确。
+优化建议：
+elif item_type == "blockquote":
+    quote_content = item_content
+    if quote_content:
+        # 处理多行引用
+        lines = quote_content.split('\n')
+        for line in lines:
+            markdown_lines.append(f"> {line}")
+        markdown_lines.append("")
+9. 水平分割线处理
+问题：水平分割线处理逻辑可以进一步优化，确保分割线的格式正确。
+优化建议：
+elif item_type == "horizontal_rule":
+    markdown_lines.append("---")
+    markdown_lines.append("")
+10. 代码结构优化
+问题：代码结构可以进一步优化，增加更多的注释，提高代码的可读性和可维护性。
+优化建议：
+# 添加标题
+if title:
+    # 清理标题中可能存在的多余#符号和空格
+    title = re.sub(r'^#+\s*', '', title).strip()
+    # 确保标题级别不超过6级
+    level = min(6, max(1, parsed_data.get("title_level", 1)))
+    markdown_lines.append(f"{'#' * level} {title}")
+    markdown_lines.append("")
+    
+# 处理内容
+content_items = parsed_data.get("content", [])
+for item in content_items:
+    item_type = item.get("type", "")
+    item_content = item.get("content", "")
+    
+    if item_type == "heading":
+        level = item.get("level", 1)
+        # 确保级别在1-6之间
+        level = max(1, min(level, 6))
+        # 清理内容中可能存在的多余#符号和空格
+        clean_content = re.sub(r'^#+\s*', '', item_content).strip()
+        markdown_lines.append(f"{'#' * level} {clean_content}")
+        markdown_lines.append("")
+    
+    # 其他类型处理逻辑...

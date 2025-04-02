@@ -1,0 +1,79 @@
+/* 主样式表 */
+
+/* 工具栏样式 */
+QToolBar {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid #D1D1D6;
+    spacing: 5px;
+    padding: 2px;
+}
+
+QToolBar QToolButton {
+    border: none;
+    border-radius: 4px;
+    padding: 4px;
+    margin: 2px;
+}
+
+QToolBar QToolButton:hover {
+    background-color: #F2F2F7;
+}
+
+QToolBar QToolButton:pressed {
+    background-color: #E8E8ED;
+}
+
+/* 状态栏样式 */
+QStatusBar {
+    background-color: #F5F5F7;
+    border-top: 1px solid #D1D1D6;
+    min-height: 24px;
+}
+
+QStatusBar QLabel {
+    padding: 0 8px;
+}
+
+QStatusBar::item {
+    border: none;
+}
+
+QStatusBar QProgressBar {
+    border: 1px solid #D1D1D6;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    text-align: center;
+    color: #1D1D1F;
+}
+
+QStatusBar QProgressBar::chunk {
+    background-color: #007AFF;
+    border-radius: 3px;
+}
+
+/* 暗色模式支持 */
+@media (prefers-color-scheme: dark) {
+    QToolBar {
+        background-color: rgba(28, 28, 30, 0.8);
+        border-bottom: 1px solid #3A3A3C;
+    }
+    
+    QToolBar QToolButton:hover {
+        background-color: #3A3A3C;
+    }
+    
+    QToolBar QToolButton:pressed {
+        background-color: #4A4A4C;
+    }
+    
+    QStatusBar {
+        background-color: #1C1C1E;
+        border-top: 1px solid #3A3A3C;
+    }
+    
+    QStatusBar QProgressBar {
+        border-color: #3A3A3C;
+        background-color: #2C2C2E;
+        color: #FFFFFF;
+    }
+}

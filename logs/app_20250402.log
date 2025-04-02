@@ -1,0 +1,410 @@
+2025-04-02 08:12:29 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 08:12:29 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 08:12:30 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 08:12:30 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:12:30 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-02 08:12:30 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 08:12:30 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-02 08:12:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 08:12:39 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:12:39 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-02 08:12:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 08:12:39 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-02 08:12:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 08:12:39 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:12:39 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-02 08:12:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 08:12:39 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-02 08:12:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 08:12:39 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:12:39 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-02 08:12:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 08:12:39 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 08:12:40 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 08:12:40 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:12:40 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-02 08:12:40 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 08:12:40 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-02 08:12:42 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 08:12:42 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:12:42 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-02 08:29:28 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 08:29:28 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 08:29:30 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 08:29:30 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:29:30 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-02 08:29:30 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 08:29:30 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-02 08:29:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 08:29:39 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:29:39 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-02 08:29:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 08:29:39 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-02 08:29:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 08:29:39 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:29:39 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-02 08:29:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 08:29:39 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-02 08:29:40 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 08:29:40 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:29:40 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-02 08:29:40 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 08:29:40 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 08:29:40 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 08:29:40 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:29:40 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-02 08:29:40 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 08:29:40 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-02 08:29:42 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 08:29:42 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:29:42 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-02 08:32:47 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 08:32:47 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 08:32:47 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 08:32:47 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:32:47 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-02 08:32:47 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 08:32:47 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-02 08:32:50 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 08:32:50 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:32:50 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-02 08:32:50 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 08:32:50 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-02 08:32:50 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 08:32:50 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:32:50 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-02 08:32:50 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 08:32:50 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-02 08:32:50 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 08:32:50 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:32:50 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-02 08:32:50 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 08:32:50 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 08:32:50 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 08:32:50 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:32:50 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-02 08:32:50 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 08:32:50 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-02 08:32:51 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 08:32:51 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:32:51 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-02 08:54:30 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 08:54:30 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 08:54:30 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 08:54:30 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:54:30 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-02 08:54:30 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 08:54:30 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-02 08:54:33 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 08:54:33 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:54:33 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-02 08:54:33 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 08:54:33 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-02 08:54:33 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 08:54:33 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:54:33 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-02 08:54:33 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 08:54:33 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-02 08:54:33 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 08:54:33 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:54:33 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-02 08:54:33 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 08:54:33 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 08:54:33 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 08:54:33 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:54:33 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-02 08:54:33 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 08:54:33 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-02 08:54:33 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 08:54:33 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:54:33 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-02 08:58:53 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 08:58:53 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 08:58:53 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 08:58:53 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:58:53 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-02 08:58:53 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 08:58:53 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-02 08:58:57 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 08:58:57 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:58:57 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-02 08:58:57 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 08:58:57 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-02 08:58:57 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 08:58:57 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:58:57 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-02 08:58:57 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 08:58:57 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-02 08:58:57 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 08:58:57 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:58:57 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-02 08:58:57 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 08:58:57 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 08:58:57 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 08:58:57 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:58:57 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-02 08:58:57 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 08:58:57 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-02 08:58:57 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 08:58:57 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 08:58:57 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-02 09:40:01 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:40:01 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:40:03 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:40:03 - markdown_converter - ERROR - 转换文件时发生未知错误: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "e:\PythonProjects\Markdown\src\core\converter.py", line 54, in convert_file
+    markdown_content = self.markdown_generator.generate(parsed_data)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\PythonProjects\Markdown\src\core\markdown\markdown_generator.py", line 42, in generate
+    item_type = item.get("type", "")
+                ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+2025-04-02 09:40:03 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 09:40:03 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-02 09:40:11 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 09:40:11 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:40:11 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-02 09:40:11 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 09:40:11 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-02 09:40:11 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 09:40:11 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:40:11 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-02 09:40:11 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 09:40:11 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-02 09:40:12 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 09:40:12 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:40:12 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-02 09:40:12 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:40:12 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:40:12 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:40:12 - markdown_converter - ERROR - 转换文件时发生未知错误: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "e:\PythonProjects\Markdown\src\core\converter.py", line 54, in convert_file
+    markdown_content = self.markdown_generator.generate(parsed_data)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\PythonProjects\Markdown\src\core\markdown\markdown_generator.py", line 42, in generate
+    item_type = item.get("type", "")
+                ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+2025-04-02 09:40:12 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 09:40:12 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-02 09:40:14 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 09:40:14 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:40:14 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-02 09:42:35 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:42:35 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:42:35 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:42:35 - markdown_converter - ERROR - 转换文件时发生未知错误: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "e:\PythonProjects\Markdown\src\core\converter.py", line 54, in convert_file
+    markdown_content = self.markdown_generator.generate(parsed_data)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\PythonProjects\Markdown\src\core\markdown\markdown_generator.py", line 42, in generate
+    item_type = item.get("type", "")
+                ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+2025-04-02 09:42:35 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 09:42:35 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-02 09:42:38 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 09:42:38 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:42:38 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-02 09:42:38 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 09:42:38 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-02 09:42:38 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 09:42:38 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:42:38 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-02 09:42:38 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 09:42:38 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-02 09:42:38 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 09:42:38 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:42:38 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-02 09:42:38 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:42:38 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:42:38 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:42:38 - markdown_converter - ERROR - 转换文件时发生未知错误: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "e:\PythonProjects\Markdown\src\core\converter.py", line 54, in convert_file
+    markdown_content = self.markdown_generator.generate(parsed_data)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\PythonProjects\Markdown\src\core\markdown\markdown_generator.py", line 42, in generate
+    item_type = item.get("type", "")
+                ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+2025-04-02 09:42:38 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 09:42:38 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-02 09:42:38 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 09:42:38 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:42:38 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-02 09:43:36 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:43:36 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:43:36 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:43:36 - markdown_converter - ERROR - 转换文件时发生未知错误: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "e:\PythonProjects\Markdown\src\core\converter.py", line 54, in convert_file
+    markdown_content = self.markdown_generator.generate(parsed_data)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\PythonProjects\Markdown\src\core\markdown\markdown_generator.py", line 42, in generate
+    item_type = item.get("type", "")
+                ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+2025-04-02 09:43:36 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 09:43:36 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-02 09:43:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 09:43:39 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:43:39 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\BRD.md
+2025-04-02 09:43:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 09:43:39 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-02 09:43:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 09:43:39 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:43:39 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-02 09:43:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 09:43:39 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-02 09:43:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 09:43:39 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:43:39 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-02 09:43:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:43:39 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:43:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:43:39 - markdown_converter - ERROR - 转换文件时发生未知错误: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "e:\PythonProjects\Markdown\src\core\converter.py", line 54, in convert_file
+    markdown_content = self.markdown_generator.generate(parsed_data)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\PythonProjects\Markdown\src\core\markdown\markdown_generator.py", line 42, in generate
+    item_type = item.get("type", "")
+                ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+2025-04-02 09:43:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 09:43:39 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-02 09:43:40 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 09:43:40 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:43:40 - markdown_converter - INFO - 文件保存成功: e:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-02 09:46:39 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:46:39 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:46:40 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:46:40 - markdown_converter - ERROR - 转换文件时发生未知错误: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "e:\PythonProjects\Markdown\src\core\converter.py", line 54, in convert_file
+    markdown_content = self.markdown_generator.generate(parsed_data)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\PythonProjects\Markdown\src\core\markdown\markdown_generator.py", line 42, in generate
+    item_type = item.get("type", "")
+                ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+2025-04-02 09:46:40 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 09:46:40 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-02 09:46:42 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-02 09:46:42 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:46:42 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\BRD.md
+2025-04-02 09:46:42 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 09:46:42 - markdown_converter - INFO - 使用解析器: TextParser
+2025-04-02 09:46:42 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Github克隆.txt
+2025-04-02 09:46:42 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:46:42 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\Github克隆.md
+2025-04-02 09:46:42 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 09:46:42 - markdown_converter - INFO - 使用解析器: PDFParser
+2025-04-02 09:46:43 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\Tech question回复.pdf
+2025-04-02 09:46:43 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:46:43 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\Tech question回复.md
+2025-04-02 09:46:43 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:46:43 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:46:43 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:46:43 - markdown_converter - ERROR - 转换文件时发生未知错误: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "e:\PythonProjects\Markdown\src\core\converter.py", line 54, in convert_file
+    markdown_content = self.markdown_generator.generate(parsed_data)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\PythonProjects\Markdown\src\core\markdown\markdown_generator.py", line 42, in generate
+    item_type = item.get("type", "")
+                ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+2025-04-02 09:46:43 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 09:46:43 - markdown_converter - INFO - 使用解析器: ExcelParser
+2025-04-02 09:46:44 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\腕表2代BOM成本汇总-11-29.xlsx
+2025-04-02 09:46:44 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:46:44 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\腕表2代BOM成本汇总-11-29.md
+2025-04-02 09:54:46 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:54:46 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:54:46 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:54:46 - markdown_converter - ERROR - 转换文件时发生未知错误: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "e:\PythonProjects\Markdown\src\core\converter.py", line 54, in convert_file
+    markdown_content = self.markdown_generator.generate(parsed_data)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\PythonProjects\Markdown\src\core\markdown\markdown_generator.py", line 42, in generate
+    item_type = item.get("type", "")
+                ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+2025-04-02 09:54:46 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:54:46 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:54:46 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:54:46 - markdown_converter - ERROR - 转换文件时发生未知错误: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "e:\PythonProjects\Markdown\src\core\converter.py", line 54, in convert_file
+    markdown_content = self.markdown_generator.generate(parsed_data)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "e:\PythonProjects\Markdown\src\core\markdown\markdown_generator.py", line 42, in generate
+    item_type = item.get("type", "")
+                ^^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+2025-04-02 09:57:11 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:57:11 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:57:11 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:57:11 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:57:11 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-02 09:57:11 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:57:11 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:57:11 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:57:11 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:57:11 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-02 09:59:21 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:59:21 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:59:22 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 09:59:22 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:59:22 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-02 09:59:22 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:59:22 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 09:59:22 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 09:59:22 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 09:59:22 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-02 10:01:53 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 10:01:53 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 10:01:53 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 10:01:53 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 10:01:54 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-02 10:01:54 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 10:01:54 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 10:01:54 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 10:01:54 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 10:01:54 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-02 10:36:47 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 10:36:47 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 10:36:48 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 10:36:48 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 10:36:48 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-02 10:36:48 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 10:36:48 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 10:36:48 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 10:36:48 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 10:36:48 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-02 11:21:16 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 11:21:16 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 11:21:17 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 11:21:17 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 11:21:17 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-02 11:21:17 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 11:21:17 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 11:21:17 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 11:21:17 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 11:21:17 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-02 11:43:32 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 11:43:32 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 11:43:32 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-02 11:43:32 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 11:43:32 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-02 11:43:32 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 11:43:32 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-02 11:43:33 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-02 11:43:33 - markdown_converter - INFO - Markdown生成完成
+2025-04-02 11:43:33 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
