@@ -50,9 +50,17 @@ class Converter:
             parsed_data = parser.parse(file_path)
             self.logger.info(f"文件解析完成: {file_path}")
             
-            # 生成Markdown
-            markdown_content = self.markdown_generator.generate(parsed_data)
-            self.logger.info(f"Markdown生成完成")
+            # --- 开始修改 ---
+            # 检查解析器是否返回了原始Markdown（例如，来自WordParser且禁用了后期处理）
+            if parsed_data.get("raw_markdown"):
+                # 如果是原始Markdown，直接使用内容，跳过MarkdownGenerator
+                markdown_content = parsed_data.get("content", "")
+                self.logger.info(f"使用解析器提供的原始Markdown内容")
+            else:
+                # 否则（如果解析器返回的是结构化数据），使用MarkdownGenerator生成
+                markdown_content = self.markdown_generator.generate(parsed_data)
+                self.logger.info(f"Markdown生成完成")
+        # --- 结束修改 ---
             
             # 如果没有提供输出文件名，则使用原文件名
             if output_filename is None:
