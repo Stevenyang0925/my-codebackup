@@ -54,18 +54,31 @@ class WordParser(BaseParser):
             p[style-name='List Paragraph'] => p:fresh
             r[style-name='Strong'] => strong
             r[style-name='Emphasis'] => em
-            """
             
-            # 自定义转换选项
-            conversion_options = {
-                "style_map": style_map
-            }
+            # 添加更多样式映射以提高兼容性
+            p[outline-level="1"] => h1:fresh
+            p[outline-level="2"] => h2:fresh
+            p[outline-level="3"] => h3:fresh
+            p[outline-level="4"] => h4:fresh
+            
+            # 处理可能的中文样式名称变体
+            p[style-name='一级标题'] => h1:fresh
+            p[style-name='二级标题'] => h2:fresh
+            p[style-name='三级标题'] => h3:fresh
+            p[style-name='四级标题'] => h4:fresh
+            """
             
             # 使用mammoth库将Word文档转换为Markdown
             with open(file_path, "rb") as docx_file:
                 try:
-                    result = mammoth.convert_to_markdown(docx_file, conversion_options=conversion_options)
+                    # 使用正确的 API 调用方式
+                    result = mammoth.convert_to_markdown(docx_file, style_map=style_map)
                     markdown_content = result.value
+                    
+                    # 调试：打印 Mammoth 的原始输出
+                    print("\n==== Mammoth 原始输出（前500个字符）====")
+                    print(result.value[:500])
+                    print("==== Mammoth 原始输出结束 ====\n")
                     
                     # 获取转换过程中的警告信息
                     messages = result.messages
@@ -76,7 +89,7 @@ class WordParser(BaseParser):
                     raise  # 重新抛出异常，让外层的异常处理捕获
             
             # 直接处理markdown内容，不再转换为结构化内容再转回markdown
-            markdown_content = self._process_markdown_directly(markdown_content)
+            markdown_content = self._process_markdown_intelligently(markdown_content)
             
             # 返回处理后的markdown内容
             return {
@@ -90,9 +103,9 @@ class WordParser(BaseParser):
             # 如果mammoth失败，尝试使用备选方法
             return self._parse_with_python_docx(file_path, title)
     
-    def _process_markdown_directly(self, markdown_content: str) -> str:
+    def _process_markdown_intelligently(self, markdown_content: str) -> str:
         """
-        直接处理markdown内容，不再转换为结构化内容
+        智能处理markdown内容，基于文本特征识别标题
         
         Args:
             markdown_content: 原始markdown内容
@@ -100,6 +113,9 @@ class WordParser(BaseParser):
         Returns:
             str: 处理后的markdown内容
         """
+        print("\n==== 开始智能处理 Markdown 内容 ====")
+        print(f"原始内容前200个字符: {markdown_content[:200]}")
+        
         # 1. 规范化专业术语
         terms = {
             r'\bppg\b': 'PPG',
@@ -109,128 +125,118 @@ class WordParser(BaseParser):
             r'\bble\b': 'BLE',
             r'\bsnr\b': 'SNR',
             r'\bled\b': 'LED',
-            # 添加其他可能的专业术语
             r'\baod\b': 'AOD',
             r'\batm\b': 'ATM'
-            
         }
         
         for pattern, replacement in terms.items():
             markdown_content = re.sub(pattern, replacement, markdown_content, flags=re.IGNORECASE)
         
-        # 2. 修复标题格式
+        # 2. 处理标题格式
         lines = markdown_content.split('\n')
         processed_lines = []
-        seen_headings = set()
+        
+        print(f"总行数: {len(lines)}")
+        
+        # 跟踪文档结构
+        in_list = False
+        prev_line_empty = True  # 文档开始被视为空行之后
         
         for i, line in enumerate(lines):
+            line_stripped = line.strip()
+            
             # 跳过空行
-            if not line.strip():
+            if not line_stripped:
                 processed_lines.append(line)
+                prev_line_empty = True
+                in_list = False  # 空行结束列表
                 continue
             
-            # 处理标题行
+            # 处理已有的标题行，确保格式正确
             if line.startswith('#'):
-                heading_text = line.strip()
-                # 去重
-                if heading_text in seen_headings:
-                    continue
-                seen_headings.add(heading_text)
-                
-                # 确保标题格式正确
+                print(f"发现已有标题行: {line}")
+                # 确保标题格式正确（# 后有空格）
                 if not re.match(r'^#+\s', line):
                     line = re.sub(r'^(#+)', r'\1 ', line)
-                
                 processed_lines.append(line)
+                prev_line_empty = False
+                in_list = False
                 continue
             
-            # 识别可能是标题但没有#标记的行
-            if (i == 0 or not lines[i-1].strip()) and len(line) < 100 and not re.search(r'[.,:;?!]$', line):
-                # 检查下一行是否为空行，这是段落标题的特征
-                is_next_line_empty = i+1 < len(lines) and not lines[i+1].strip()
-                # 检查是否与已知标题相似
-                is_similar_to_heading = any(heading.lower().endswith(line.lower()) for heading in seen_headings)
+            # 检测列表项
+            if re.match(r'^[\*\-\+]\s', line_stripped) or re.match(r'^\d+\.\s', line_stripped):
+                print(f"发现列表项: {line}")
+                in_list = True
+                processed_lines.append(line)
+                prev_line_empty = False
+                continue
+            
+            # 特殊处理：已知的章节标题
+            known_sections = ["息屏显", "冷钱包", "5ATM防水保护", "3D弧面玻璃", "快充加持", "多功能配件", "数字身份"]
+            if line_stripped in known_sections:
+                print(f"发现已知章节标题: {line} -> ## {line_stripped}")
+                line = f"## {line_stripped}"
+                processed_lines.append(line)
+                prev_line_empty = False
+                in_list = False
+                continue
+            
+            # 智能识别可能的标题
+            # 标题特征：
+            # 1. 前面是空行或文档开始
+            # 2. 长度较短（通常不超过50个字符）
+            # 3. 不以标点符号结尾（除了冒号）
+            # 4. 后面是空行或文档结束
+            # 5. 不是列表的一部分
+            is_potential_heading = (
+                prev_line_empty and  # 前面是空行
+                not in_list and  # 不是列表的一部分
+                len(line_stripped) <= 50 and  # 长度较短
+                not re.search(r'[.,:;?!]$', line_stripped.rstrip(':')) and  # 不以标点符号结尾（除了冒号）
+                (i == len(lines) - 1 or not lines[i+1].strip())  # 后面是空行或文档结束
+            )
+            
+            # 检查是否有其他标题特征
+            if not is_potential_heading and prev_line_empty and not in_list:
+                # 检查是否是孤立的短行（可能是标题）
+                if (len(line_stripped) <= 30 and  # 非常短的行
+                    not re.search(r'[.。，,;；]', line_stripped) and  # 不以标点符号结尾
+                    not re.match(r'^[\*\-\+]\s', line_stripped) and  # 不是列表项
+                    not re.match(r'^\d+\.\s', line_stripped)):  # 不是有序列表项
+                    is_potential_heading = True
+            
+            if is_potential_heading:
+                print(f"发现潜在标题: {line} -> ## {line_stripped}")
+                # 判断标题级别：如果这是文档的第一个潜在标题，且前面没有 # 标题，则可能是一级标题
+                is_first_heading = all(not l.startswith('#') for l in lines[:i])
                 
-                if not is_similar_to_heading and (is_next_line_empty or line.endswith(':')):
-                    # 可能是二级标题
-                    if not line.startswith('#'):
-                        # 检查是否是已知的特定章节
-                        known_sections = ["息屏显", "冷钱包", "5ATM防水保护", "3D弧面玻璃", "快充加持", "多功能配件", "数字身份"]
-                        if any(section in line for section in known_sections):
-                            line = f"## {line}"
-                            seen_headings.add(line.strip())
+                if is_first_heading and i < 5:  # 如果是文档前几行的第一个标题
+                    line = f"# {line_stripped}"
+                else:  # 否则视为二级标题
+                    line = f"## {line_stripped}"
+                
+                processed_lines.append(line)
+                prev_line_empty = False
+                continue
             
-            # 处理列表项
-            list_match = re.match(r'^(\s*)([-*]|\d+\.)\s+(.+)$', line)
-            if list_match:
-                indent, marker, content = list_match.groups()
-                # 确保列表项格式正确
-                line = f"{indent}{marker} {content}"
-            
+            # 处理其他行
             processed_lines.append(line)
+            prev_line_empty = False
         
         # 3. 重新组合内容
         markdown_content = '\n'.join(processed_lines)
         
-        # 4. 修复段落格式 - 确保段落之间有空行
-        markdown_content = re.sub(r'([^\n])\n([^#\n-])', r'\1\n\n\2', markdown_content)
+        # 4. 确保段落之间有空行
+        markdown_content = re.sub(r'([^\n])\n([^#\n\-\*\+\d])', r'\1\n\n\2', markdown_content)
         
-        # 5. 修复标题格式 - 确保标题前后有空行
+        # 5. 确保标题前后有空行
         markdown_content = re.sub(r'([^\n])\n(#+\s)', r'\1\n\n\2', markdown_content)
-        markdown_content = re.sub(r'(#+\s[^\n]+)\n([^#\n])', r'\1\n\n\2', markdown_content)
+        markdown_content = re.sub(r'(#+\s[^\n]+)\n([^#\n\-\*\+\d])', r'\1\n\n\2', markdown_content)
         
-        # 6. 修复列表项格式
-        markdown_content = re.sub(r'\n\*\s*([^\n]+)', r'\n* \1', markdown_content)
+        print(f"处理后内容前200个字符: {markdown_content[:200]}")
+        print("==== 智能处理完成 ====\n")
         
-        # 7. 识别并修复未标记的二级标题
-        sections = ["息屏显", "冷钱包", "5ATM防水保护", "3D弧面玻璃", "快充加持", "多功能配件", "数字身份"]
-        for section in sections:
-            # 查找未标记的章节标题
-            pattern = r'(?<!\#)(?<!\#\s)' + re.escape(section) + r'(?!\#)(?!\s\#)'
-            replacement = f"\n## {section}"
-            markdown_content = re.sub(pattern, replacement, markdown_content)
-        
-        # 8. 修复表格格式
-        table_rows = re.findall(r'(\|[^\n]+\|)', markdown_content)
-        if table_rows:
-            for row in table_rows:
-                # 修复单元格之间的间距问题
-                fixed_row = re.sub(r'\|\s*([^|]*?)\s*\|', r'| \1 |', row)
-                markdown_content = markdown_content.replace(row, fixed_row)
-            
-            # 如果存在表格但缺少分隔行，添加分隔行
-            table_start_indices = [m.start() for m in re.finditer(r'\|[^\n]+\|\n', markdown_content)]
-            for i in table_start_indices:
-                end_of_line = markdown_content.find('\n', i)
-                if end_of_line > 0:
-                    first_row = markdown_content[i:end_of_line]
-                    cells_count = first_row.count('|') - 1
-                    if cells_count > 0:
-                        separator_row = '|' + '|'.join([' --- ' for _ in range(cells_count)]) + '|\n'
-                        next_char_pos = end_of_line + 1
-                        if next_char_pos < len(markdown_content) and not markdown_content[next_char_pos:].startswith('|'):
-                            markdown_content = markdown_content[:end_of_line+1] + separator_row + markdown_content[end_of_line+1:]
-        
-        # 9. 最后进行一些清理和优化
-        # 移除多余的空行
-        markdown_content = re.sub(r'\n{3,}', '\n\n', markdown_content)
-        
-        # 10. 修复重复的标题
-        lines = markdown_content.split('\n')
-        unique_lines = []
-        seen_titles = set()
-        
-        for line in lines:
-            if line.startswith('# '):
-                title = line.strip()
-                if title in seen_titles:
-                    continue
-                seen_titles.add(title)
-            unique_lines.append(line)
-        
-        markdown_content = '\n'.join(unique_lines)
-        
-        return markdown_content.strip()
+        return markdown_content
     
     def _post_process_markdown(self, markdown_content: str) -> str:
         """
@@ -1031,18 +1037,33 @@ class WordParser(BaseParser):
             p[style-name='List Paragraph'] => p:fresh
             r[style-name='Strong'] => strong
             r[style-name='Emphasis'] => em
-            """
             
-            # 自定义转换选项
-            conversion_options = {
-                "style_map": style_map
-            }
+            # 添加更多样式映射以提高兼容性
+            p[outline-level="1"] => h1:fresh
+            p[outline-level="2"] => h2:fresh
+            p[outline-level="3"] => h3:fresh
+            p[outline-level="4"] => h4:fresh
+            
+            # 处理可能的中文样式名称变体
+            p[style-name='一级标题'] => h1:fresh
+            p[style-name='二级标题'] => h2:fresh
+            p[style-name='三级标题'] => h3:fresh
+            p[style-name='四级标题'] => h4:fresh
+            """
             
             # 使用mammoth库将Word文档转换为Markdown
             with open(file_path, "rb") as docx_file:
                 print(f"正在转换文件：{file_path}")
-                result = mammoth.convert_to_markdown(docx_file, conversion_options=conversion_options)
+                result = mammoth.convert_to_markdown(
+                    docx_file,
+                    style_map=style_map
+                )
                 markdown_content = result.value
+                
+                # 调试：打印 Mammoth 的原始输出
+                print("\n==== Mammoth 原始输出（前500个字符）====")
+                print(result.value[:500])
+                print("==== Mammoth 原始输出结束 ====\n")
                 
                 # 获取转换过程中的警告信息
                 messages = result.messages
