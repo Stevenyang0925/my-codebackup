@@ -78,3 +78,138 @@
 2025-04-04 09:45:02 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
 2025-04-04 09:45:02 - markdown_converter - INFO - 使用解析器提供的原始Markdown内容
 2025-04-04 09:45:02 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-04 16:33:38 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-04 16:33:38 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-04 16:33:38 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-04 16:33:38 - markdown_converter - INFO - 使用解析器提供的原始Markdown内容
+2025-04-04 16:33:38 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-04 16:33:38 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-04 16:33:38 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-04 16:33:39 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-04 16:33:39 - markdown_converter - INFO - 使用解析器提供的原始Markdown内容
+2025-04-04 16:33:39 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-04 16:40:54 - markdown_converter - INFO - 开始转换文件: e:/PythonProjects/Markdown/test file/MRD.jpg
+2025-04-04 16:40:54 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 16:41:00 - markdown_converter - INFO - 文件解析完成: e:/PythonProjects/Markdown/test file/MRD.jpg
+2025-04-04 16:41:00 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 16:41:00 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\MRD.md
+2025-04-04 16:42:13 - markdown_converter - INFO - 开始转换文件: e:/PythonProjects/Markdown/test file/MRD.jpg
+2025-04-04 16:42:13 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 16:42:14 - markdown_converter - INFO - 文件解析完成: e:/PythonProjects/Markdown/test file/MRD.jpg
+2025-04-04 16:42:14 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 16:42:14 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\MRD.md
+2025-04-04 16:43:05 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-04 16:43:05 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-04 16:43:05 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-04 16:43:05 - markdown_converter - INFO - 使用解析器提供的原始Markdown内容
+2025-04-04 16:43:05 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-04 16:43:05 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-04 16:43:05 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-04 16:43:05 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-04 16:43:05 - markdown_converter - INFO - 使用解析器提供的原始Markdown内容
+2025-04-04 16:43:05 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-04 16:47:28 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-04 16:47:28 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-04 16:47:28 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-04 16:47:28 - markdown_converter - INFO - 使用解析器提供的原始Markdown内容
+2025-04-04 16:47:28 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-04 16:47:28 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-04 16:47:28 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-04 16:47:28 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-04 16:47:28 - markdown_converter - INFO - 使用解析器提供的原始Markdown内容
+2025-04-04 16:47:28 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-04 16:47:28 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\PRD.jpg
+2025-04-04 16:47:28 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 16:47:30 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\PRD.jpg
+2025-04-04 16:47:30 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 16:47:30 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\PRD.md
+2025-04-04 16:47:30 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\MRD.jpg
+2025-04-04 16:47:30 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 16:47:31 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\MRD.jpg
+2025-04-04 16:47:31 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 16:47:31 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\MRD.md
+2025-04-04 16:47:31 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-04 16:47:31 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 16:47:32 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-04 16:47:32 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 16:47:32 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\BRD.md
+2025-04-04 16:48:14 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-04 16:48:14 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-04 16:48:14 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-04 16:48:14 - markdown_converter - INFO - 使用解析器提供的原始Markdown内容
+2025-04-04 16:48:14 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-04 16:48:14 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-04 16:48:14 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-04 16:48:14 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-04 16:48:14 - markdown_converter - INFO - 使用解析器提供的原始Markdown内容
+2025-04-04 16:48:14 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-04 16:48:14 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\PRD.jpg
+2025-04-04 16:48:14 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 16:48:16 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\PRD.jpg
+2025-04-04 16:48:16 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 16:48:16 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\PRD.md
+2025-04-04 16:48:16 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\MRD.jpg
+2025-04-04 16:48:16 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 16:48:17 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\MRD.jpg
+2025-04-04 16:48:17 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 16:48:17 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\MRD.md
+2025-04-04 16:48:17 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-04 16:48:17 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 16:48:18 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-04 16:48:18 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 16:48:18 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\BRD.md
+2025-04-04 16:52:46 - markdown_converter - INFO - 开始转换文件: e:/PythonProjects/Markdown/test file/PRD.jpg
+2025-04-04 16:52:46 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 16:52:47 - markdown_converter - INFO - 文件解析完成: e:/PythonProjects/Markdown/test file/PRD.jpg
+2025-04-04 16:52:47 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 16:52:47 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\PRD.md
+2025-04-04 16:55:53 - markdown_converter - INFO - 开始转换文件: e:/PythonProjects/Markdown/test file/PRD.jpg
+2025-04-04 16:55:53 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 16:55:55 - markdown_converter - INFO - 文件解析完成: e:/PythonProjects/Markdown/test file/PRD.jpg
+2025-04-04 16:55:55 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 16:55:55 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\PRD.md
+2025-04-04 16:58:13 - markdown_converter - INFO - 开始转换文件: e:/PythonProjects/Markdown/test file/PRD.jpg
+2025-04-04 16:58:13 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 16:58:16 - markdown_converter - INFO - 文件解析完成: e:/PythonProjects/Markdown/test file/PRD.jpg
+2025-04-04 16:58:16 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 16:58:16 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\PRD.md
+2025-04-04 17:00:06 - markdown_converter - INFO - 开始转换文件: e:/PythonProjects/Markdown/test file/PRD.jpg
+2025-04-04 17:00:06 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 17:00:07 - markdown_converter - INFO - 文件解析完成: e:/PythonProjects/Markdown/test file/PRD.jpg
+2025-04-04 17:00:07 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 17:00:07 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\PRD.md
+2025-04-04 17:00:23 - markdown_converter - INFO - 开始转换文件: e:/PythonProjects/Markdown/test file/MRD.jpg
+2025-04-04 17:00:23 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 17:00:24 - markdown_converter - INFO - 文件解析完成: e:/PythonProjects/Markdown/test file/MRD.jpg
+2025-04-04 17:00:24 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 17:00:24 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\MRD.md
+2025-04-04 17:00:36 - markdown_converter - INFO - 开始转换文件: e:/PythonProjects/Markdown/test file/BRD.jpg
+2025-04-04 17:00:36 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 17:00:38 - markdown_converter - INFO - 文件解析完成: e:/PythonProjects/Markdown/test file/BRD.jpg
+2025-04-04 17:00:38 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 17:00:38 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\BRD.md
+2025-04-04 18:01:59 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-04 18:01:59 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-04 18:01:59 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\AI戒指三代硬件需求表.docx
+2025-04-04 18:01:59 - markdown_converter - INFO - 使用解析器提供的原始Markdown内容
+2025-04-04 18:01:59 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\AI戒指三代硬件需求表.md
+2025-04-04 18:01:59 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-04 18:01:59 - markdown_converter - INFO - 使用解析器: WordParser
+2025-04-04 18:01:59 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\智能腕表2代.docx
+2025-04-04 18:01:59 - markdown_converter - INFO - 使用解析器提供的原始Markdown内容
+2025-04-04 18:01:59 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\智能腕表2代.md
+2025-04-04 18:01:59 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\PRD.jpg
+2025-04-04 18:01:59 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 18:02:10 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\PRD.jpg
+2025-04-04 18:02:10 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 18:02:10 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\PRD.md
+2025-04-04 18:02:10 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\MRD.jpg
+2025-04-04 18:02:10 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 18:02:18 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\MRD.jpg
+2025-04-04 18:02:18 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 18:02:18 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\MRD.md
+2025-04-04 18:02:18 - markdown_converter - INFO - 开始转换文件: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-04 18:02:18 - markdown_converter - INFO - 使用解析器: ImageParser
+2025-04-04 18:02:23 - markdown_converter - INFO - 文件解析完成: E:\PythonProjects\Markdown\test file\BRD.jpg
+2025-04-04 18:02:23 - markdown_converter - INFO - Markdown生成完成
+2025-04-04 18:02:23 - markdown_converter - INFO - 文件保存成功: E:\PythonProjects\Markdown\output\BRD.md

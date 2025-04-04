@@ -1,10 +1,10 @@
 # PRD
 
-![原始图片](E:\PythonProjects\Markdown\test file\PRD.jpg)
+![原始图片](test%20file/PRD.jpg)
 
 ## 时间
 
-## 产品研发前：
+产品研发前:
 
 # 产品需求文档
 
@@ -20,15 +20,15 @@ Product Requirements Document:
 
 ## 产品属性
 
-### 决定产品做成什么样？：（How）
+### 决定产品做成什么样? : （How）
 
 ## 功能、产品名称
 
-## 版本历史！
+## 版本历史!
 
 ### 功能清单及优先级
 
-### 功能说明：
+### 功能说明:
 
 ## 功能目的
 
@@ -72,7 +72,7 @@ Product Requirements Document:
 
 #### 性能需求
 
-#### 其他要求：
+#### 其他要求:
 
 ## 环境需求
 
@@ -86,10 +86,10 @@ Product Requirements Document:
 
 ## 版本规划送代
 
-## 附录：
+附录:
 
-### ：产品具体是什么样？
+: 产品具体是什么样?
 
 ## 总结
 
-## 我们该如何实现？
+我们该如何实现?

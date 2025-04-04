@@ -112,7 +112,7 @@ if __name__ == "__main__":
             file_count = 0
             
             # 特别检查两个特定文件
-            special_files = ["AI戒指三代硬件需求表.docx", "智能腕表2代.docx"]
+            special_files = ["AI戒指三代硬件需求表.docx", "智能腕表2代.docx", "PRD.jpg", "MRD.jpg", "BRD.jpg"]
             for special_file in special_files:
                 special_path = os.path.join(test_dir, special_file)
                 if os.path.exists(special_path):

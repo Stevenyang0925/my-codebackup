@@ -4,7 +4,7 @@
 
 import os
 import re
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Tuple
 from .base_parser import BaseParser
 
 class ImageParser(BaseParser):
@@ -39,49 +39,59 @@ class ImageParser(BaseParser):
         
         try:
             # 导入必要的库
-            import pytesseract
-            from PIL import Image, ImageEnhance, ImageFilter
             import cv2
             import numpy as np
+            from PIL import Image, ImageEnhance
+            from paddleocr import PaddleOCR
             
             # 打开图片
             image = Image.open(file_path)
             
-            # 图像预处理 - 调整参数
-            # 转换为OpenCV格式
+            # 图像预处理
             img_cv = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
             
             # 转灰度
             gray = cv2.cvtColor(img_cv, cv2.COLOR_BGR2GRAY)
             
-            # 应用自适应阈值，参数调整
+            # 应用自适应阈值
             binary = cv2.adaptiveThreshold(
                 gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
-                cv2.THRESH_BINARY, 15, 8  # 调整这些参数
+                cv2.THRESH_BINARY, 11, 2
             )
             
-            # 降噪 - 使用更温和的参数
-            denoised = cv2.fastNlMeansDenoising(binary, None, 7, 7, 15)
+            # 降噪
+            denoised = cv2.fastNlMeansDenoising(binary, None, 10, 7, 21)
             
             # 可选：形态学操作以改善文本
             kernel = np.ones((1, 1), np.uint8)
             denoised = cv2.morphologyEx(denoised, cv2.MORPH_CLOSE, kernel)
             
-            # 转回PIL格式
-            enhanced_image = Image.fromarray(denoised)
+            # 保存预处理后的图像
+            preprocessed_path = file_path + ".preprocessed.jpg"
+            cv2.imwrite(preprocessed_path, denoised)
             
-            # 从配置中获取OCR设置
-            from src.core.config import config
-            lang = config.get("ocr", "language") or "chi_sim+eng"
-            # 对于文档类型的图片，PSM=6可能更合适
-            psm = config.get("ocr", "page_segmentation_mode") or 6
-            oem = config.get("ocr", "oem") or 3
+            # 初始化PaddleOCR
+            ocr = PaddleOCR(
+                use_angle_cls=True,  # 使用方向分类器
+                lang="ch",           # 中文模型
+                use_gpu=False,       # 不使用GPU
+                show_log=False       # 不显示日志
+            )
             
-            # 设置OCR配置 - 添加额外参数以提高中文识别质量
-            config_str = f'--psm {psm} --oem {oem} -c preserve_interword_spaces=1'
+            # 进行OCR识别
+            result = ocr.ocr(preprocessed_path, cls=True)
             
-            # 执行OCR
-            text = pytesseract.image_to_string(enhanced_image, lang=lang, config=config_str)
+            # 删除预处理图像
+            os.remove(preprocessed_path)
+            
+            # 提取识别文本
+            text_lines = []
+            for line in result[0]:
+                if line:
+                    text_lines.append(line[1][0])  # 获取识别的文本内容
+            
+            # 将识别的文本合并为一个字符串
+            text = "\n".join(text_lines)
             
             # 添加原始图片引用
             content.append({
@@ -90,7 +100,7 @@ class ImageParser(BaseParser):
                 "additional_info": file_path
             })
             
-            # 文本结构识别和Markdown格式转换
+            # 文本处理
             if text.strip():
                 # 处理识别出的文本
                 processed_content = self._process_text_structure(text)
@@ -125,13 +135,132 @@ class ImageParser(BaseParser):
                 }]
             }
     
+    def _detect_doc_type(self, text: str) -> Dict[str, Any]:
+        """
+        检测文档类型并返回相关信息
+        
+        Args:
+            text: 识别出的文本
+            
+        Returns:
+            Dict[str, Any]: 文档类型信息
+        """
+        doc_type_info = {
+            "type": None,
+            "level_keywords": [],
+            "title_patterns": []
+        }
+        
+        # 检测文档类型
+        if re.search(r'(商业需求文档|BRD)', text, re.IGNORECASE):
+            doc_type_info["type"] = "BRD"
+            doc_type_info["level_keywords"] = [
+                "商业需求文档", "产品属性", "用一句话", "产品的商业模式", 
+                "宏观行业趋势", "微观细分市场", "产品的市场分析", "需要哪些人员",
+                "时间安排", "收入来源和渠道", "收支平衡条件", "风险分析"
+            ]
+            doc_type_info["title_patterns"] = [
+                r"商业需求文档", r"产品属性", r"用一句话", r"产品的商业模式", 
+                r"宏观行业趋势", r"微观细分市场", r"产品的市场分析", r"需要哪些人员",
+                r"时间安排", r"收入来源和渠道", r"收支平衡条件", r"风险分析"
+            ]
+        
+        elif re.search(r'(市场需求文档|MRD)', text, re.IGNORECASE):
+            doc_type_info["type"] = "MRD"
+            doc_type_info["level_keywords"] = [
+                "市场需求文档", "为什么要做", "怎么做", "产品、需求名称", 
+                "用户问题", "目标市场分析", "用户描述", "目标用户分析", 
+                "关键用户需求", "竞品分析", "竞争对手分析", "产品定位", 
+                "产品核心目标", "产品进度计划", "市场未来"
+            ]
+            doc_type_info["title_patterns"] = [
+                r"市场需求文档", r"为什么要做", r"怎么做", r"产品、需求名称", 
+                r"用户问题", r"目标市场分析", r"用户描述", r"目标用户分析", 
+                r"关键用户需求", r"竞品分析", r"竞争对手分析", r"产品定位", 
+                r"产品核心目标", r"产品进度计划", r"市场未来"
+            ]
+        
+        elif re.search(r'(产品需求文档|PRD)', text, re.IGNORECASE):
+            doc_type_info["type"] = "PRD"
+            doc_type_info["level_keywords"] = [
+                "产品需求文档", "功能、产品名称", "版本历史", "功能清单及优先级", 
+                "功能说明", "详细说明", "业务流程", "业务规则", "页面流程图", 
+                "页面原型图", "输入输出", "限制", "数据格式", "功能要求", 
+                "兼容性", "性能", "市场运营需求", "发布", "支持和培训", 
+                "销售思路", "交互建议", "性能需求", "其他要求"
+            ]
+            doc_type_info["title_patterns"] = [
+                r"产品需求文档", r"功能、产品名称", r"版本历史", r"功能清单及优先级", 
+                r"功能说明", r"详细说明", r"业务流程", r"业务规则", r"页面流程图", 
+                r"页面原型图", r"输入输出", r"限制", r"数据格式", r"功能要求", 
+                r"兼容性", r"性能", r"市场运营需求", r"发布", r"支持和培训", 
+                r"销售思路", r"交互建议", r"性能需求", r"其他要求"
+            ]
+        
+        return doc_type_info
+    
+    def _estimate_heading_level(self, line: str, doc_type_info: Dict[str, Any], previous_headings: List[Tuple[int, str]]) -> int:
+        """
+        估计标题的层级
+        
+        Args:
+            line: 文本行
+            doc_type_info: 文档类型信息
+            previous_headings: 之前的标题列表
+            
+        Returns:
+            int: 标题层级
+        """
+        # 默认为二级标题
+        level = 2
+        
+        # 如果是文档类型标题，设为一级
+        if doc_type_info["type"] and (
+            doc_type_info["type"] in line or 
+            "需求文档" in line or 
+            "Requirements Document" in line
+        ):
+            return 1
+        
+        # 检查是否匹配关键词模式
+        for i, pattern in enumerate(doc_type_info["title_patterns"]):
+            if re.search(pattern, line, re.IGNORECASE):
+                # 根据关键词在列表中的位置估计层级
+                if i < 3:  # 前几个关键词通常是高层级标题
+                    return 2
+                elif i < 10:
+                    return 3
+                else:
+                    return 4
+        
+        # 根据文本特征估计层级
+        if len(line) < 10:  # 非常短的标题可能是高层级
+            level = 2
+        elif len(line) < 20:  # 较短的标题可能是中层级
+            level = 3
+        else:  # 较长的标题可能是低层级
+            level = 4
+        
+        # 根据前面的标题层级调整当前标题层级
+        if previous_headings:
+            prev_level = previous_headings[-1][0]
+            # 避免层级跳跃过大
+            if level > prev_level + 1:
+                level = prev_level + 1
+        
+        return min(level, 4)  # 最大不超过4级标题
+    
     def _process_text_structure(self, text: str) -> List[Dict[str, Any]]:
         """
-        处理文本结构，识别标题、列表等格式
-        """
-        content_items = []
+        处理文本结构，识别标题和列表，生成结构化内容
         
-        # 修正常见OCR错误 - 扩展错误修正字典
+        Args:
+            text: 识别出的文本
+            
+        Returns:
+            List[Dict[str, Any]]: 处理后的结构化内容
+        """
+        # 基本OCR错误修正
         corrections = {
             "盗源": "资源",
             "远是": "适是",
@@ -144,140 +273,140 @@ class ImageParser(BaseParser):
             "坎硬件": "软硬件",
             "汪来": "带来",
             "计机": "先机",
-            "ABER HADI": "战略背道而驰",
             # 移除特殊符号
-            "©": "",
-            "®": "",
-            "™": "",
-            "mia,": "",
-            "Be": "",
-            "ASKER": "",
-            "sat": "",
-            "wwonMada,": "",
-            "Academe": "",
-            "Cee ee]": "",
-            "ce        6": "",
-            "PERE. O.": "",
-            "Rota?": "要做什么?",
-            "RoR Ler RB": "",
+            "": "",
+            "": "",
+            "": "",
+            # 其他常见OCR错误修正
+            "自标": "目标",
+            "硕求": "需求",
+            "爵求": "需求",
+            "簿符合": "是否符合",
+            "过到": "遇到",
+            "适代": "迭代",
+            # 修正标点符号
+            """: "\"",
+            """: "\"",
+            "'": "'",
+            "'": "'",
         }
         
         # 应用文本修正
         for old, new in corrections.items():
             text = text.replace(old, new)
         
-        # 清理文本 - 移除多余空格，但保留关键特殊字符
-        text = re.sub(r'\s+', ' ', text)  # 替换多个空格为单个空格
+        # 分割文本为行
+        lines = []
+        for line in text.split('\n'):
+            line = line.strip()
+            if line:  # 只保留非空行
+                # 移除多余空格
+                line = re.sub(r'\s{2,}', ' ', line)
+                lines.append(line)
         
-        # 不要过度清理特殊字符，可能会影响内容识别
-        # 移除此行: text = re.sub(r'[^\w\s\.\,\:\;\?\!\(\)\[\]\{\}\-\+\=\*\/\\\'\"\@\#\$\%\&\|]', '', text)
+        # 如果没有内容，返回空列表
+        if not lines:
+            return []
         
-        # 直接使用预定义的BRD文档结构，而不是依赖OCR识别结果
-        # 这是一个更可靠的方法，因为我们已经知道文档的结构
+        # 检测文档类型
+        doc_type_info = self._detect_doc_type("\n".join(lines))
         
-        # 添加主标题
-        content_items.append({
-            "type": "heading",
-            "level": 1,
-            "content": "BRD (What属性)"
-        })
+        # 处理文本结构，识别标题和列表
+        structured_content = []
         
-        # 添加二级标题和列表项
-        sections = [
-            {
-                "title": "商业需求文档 Requirements Document Business",
-                "items": [
-                    "时间：产品立项前",
-                    "受众：公司高层",
-                    "文档目的：通过分析产品利益点，让公司高层决策是否要做",
-                    "产品属性：要做什么？(What)"
-                ]
-            },
-            {
-                "title": "产品介绍",
-                "items": [
-                    "用一句话来清晰定义你的产品",
-                    "用一句话来明确表述产品有什么创新，解决了用户什么问题，填补了市场什么空白",
-                    "用一句话（包括具体数字）来描述产品的规模",
-                    "用一句话来概括你的产品的竞争优势",
-                    "用一句话来说明为什么我们的团队能做出来，需要多久做出来",
-                    "用一句话（包括具体数字和时间）来概述你的产品多长时间内可以赚多少利润",
-                    "用一句话来陈述你希望需要的资源支持，以及怎么用"
-                ]
-            },
-            {
-                "title": "产品的商业模式",
-                "items": [
-                    "靠什么赚钱？"
-                ]
-            },
-            {
-                "title": "产品的市场分析",
-                "items": [
-                    "宏观行业趋势",
-                    "微观细分市场",
-                    "怎么进入并发展"
-                ]
-            },
-            {
-                "title": "竞争对手分析",
-                "items": [
-                    "竞争对手",
-                    "怎么竞争"
-                ]
-            },
-            {
-                "title": "团队",
-                "items": [
-                    "需要哪些人员",
-                    "阶段周期"
-                ]
-            },
-            {
-                "title": "产品线路图",
-                "items": [
-                    "功能模块",
-                    "版本",
-                    "步骤",
-                    "时间安排"
-                ]
-            },
-            {
-                "title": "财务计划",
-                "items": [
-                    "收入来源和渠道",
-                    "收支平衡条件"
-                ]
-            },
-            {
-                "title": "总结",
-                "items": [
-                    "产品要做什么？(解决什么问题或满足什么用户需求？)",
-                    "为什么要做？(解读背后的原因（背景、市场空间、竞争对手、环境）",
-                    "打算怎么做？(产品规划、模块规划、研发计划、运营计划)",
-                    "需要多少资源？(人力成本、软硬件成本、运营成本)",
-                    "最终能获得什么收益？(带来收入、带来用户、扩大市场、占有市场先机、满足未来三年战略规划等)",
-                    "做这个有没有风险？(开发失败？失去市场机会？失去先机？竞争不过对手？没有带来收入？没有带来用户？与公司战略背道而驰？)"
-                ]
-            }
-        ]
+        # 跟踪已处理的标题及其层级
+        headings = []
         
-        # 添加所有章节
-        for section in sections:
-            # 添加二级标题
-            content_items.append({
-                "type": "heading",
-                "level": 2,
-                "content": section["title"]
-            })
+        # 处理文本，尝试识别基本结构
+        current_paragraph = ""
+        in_list = False
+        
+        for line in lines:
+            # 检查是否是列表项 (以'-', '*', '•'或数字+'.'开头)
+            list_match = re.match(r'^([-*•] |\d+\.\s+)(.*)$', line)
             
-            # 添加列表项
-            if section["items"]:
-                content_items.append({
-                    "type": "list",
-                    "content": "",
-                    "additional_info": section["items"],
-                    "list_type": "unordered"
+            # 检查是否可能是标题 (短句，不以标点符号结尾)
+            is_heading = (len(line) < 60 and 
+                         not line.endswith(('.', ',', ';', ':', '?', '!')) and
+                         not list_match)
+            
+            # 检查是否包含关键词
+            contains_keyword = False
+            if doc_type_info["type"]:
+                for keyword in doc_type_info["level_keywords"]:
+                    if keyword in line:
+                        contains_keyword = True
+                        is_heading = True
+                        break
+            
+            if list_match:
+                # 如果有累积的段落，先添加
+                if current_paragraph:
+                    structured_content.append({
+                        "type": "text",
+                        "content": current_paragraph
+                    })
+                    current_paragraph = ""
+                
+                # 添加列表项
+                structured_content.append({
+                    "type": "list_item",
+                    "content": line
                 })
+                in_list = True
+            
+            elif is_heading or contains_keyword:
+                # 如果有累积的段落，先添加
+                if current_paragraph:
+                    structured_content.append({
+                        "type": "text",
+                        "content": current_paragraph
+                    })
+                    current_paragraph = ""
+                
+                # 估计标题层级
+                level = self._estimate_heading_level(line, doc_type_info, headings)
+                
+                # 添加标题
+                structured_content.append({
+                    "type": "heading",
+                    "level": level,
+                    "content": line
+                })
+                
+                # 记录标题及其层级
+                headings.append((level, line))
+                
+                in_list = False
+            
+            else:
+                # 如果前面是列表，且当前行不是标题或列表项，可能是列表项的延续
+                if in_list and structured_content:
+                    # 添加到前一个列表项
+                    last_item = structured_content[-1]
+                    if last_item["type"] == "list_item":
+                        last_item["content"] += " " + line
+                else:
+                    # 普通文本，累积到当前段落
+                    if current_paragraph:
+                        # 检查是否应该是新段落（如果当前行很短或以问号/感叹号结尾）
+                        if len(line) < 30 or current_paragraph.endswith(('?', '!', '.', ':')):
+                            structured_content.append({
+                                "type": "text",
+                                "content": current_paragraph
+                            })
+                            current_paragraph = line
+                        else:
+                            current_paragraph += " " + line
+                    else:
+                        current_paragraph = line
+                    in_list = False
         
-        return content_items
+        # 添加最后一个段落（如果有）
+        if current_paragraph:
+            structured_content.append({
+                "type": "text",
+                "content": current_paragraph
+            })
+        
+        return structured_content
