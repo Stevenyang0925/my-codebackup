@@ -7,6 +7,11 @@ import re
 import mammoth
 from typing import Dict, Any, List
 from .base_parser import BaseParser
+from ..utils.logger import get_logger
+from ..utils.exceptions import FileParsingError
+
+# 获取 logger 实例
+logger = get_logger(__name__)
 
 class WordParser(BaseParser):
     """
@@ -33,9 +38,11 @@ class WordParser(BaseParser):
             Dict[str, Any]: 解析结果
         """
         if not self.is_supported(file_path):
-            raise ValueError(f"不支持的文件类型: {file_path}")
+            logger.error(f"不支持的文件类型传递给 WordParser: {file_path}")
+            raise FileParsingError(f"WordParser 不支持的文件类型: {file_path}")
         
         title = self.extract_title(file_path)
+        logger.info(f"开始使用 Mammoth 解析 Word 文档: {file_path}")
         
         try:
             # 设置自定义样式映射
@@ -76,30 +83,35 @@ class WordParser(BaseParser):
                     markdown_content = result.value
                     
                     # 调试：打印 Mammoth 的原始输出
-                    print("\n==== Mammoth 原始输出（前500个字符）====")
-                    print(result.value[:500])
-                    print("==== Mammoth 原始输出结束 ====\n")
+                    logger.debug(f"==== Mammoth 原始输出（前500个字符）====\n{result.value[:500]}\n==== Mammoth 原始输出结束 ====")
                     
                     # 获取转换过程中的警告信息
                     messages = result.messages
-                    for message in messages:
-                        print(f"Mammoth警告: {message.message} ({message.type})")
+                    if messages:
+                        logger.warning("Mammoth 转换过程中产生警告:")
+                        for message in messages:
+                            logger.warning(f"  - {message.message} ({message.type})")
                 except Exception as mammoth_error:
-                    print(f"Mammoth转换失败: {mammoth_error}")
-                    raise  # 重新抛出异常，让外层的异常处理捕获
+                    logger.error(f"Mammoth 转换失败: {mammoth_error}", exc_info=True)
+                    raise FileParsingError(f"Mammoth 转换 Word 文件失败: {mammoth_error}") from mammoth_error
             
             # 直接处理markdown内容，不再转换为结构化内容再转回markdown
+            logger.info("开始智能处理 Mammoth 生成的 Markdown 内容")
             markdown_content = self._process_markdown_intelligently(markdown_content)
             
             # 返回处理后的markdown内容
+            logger.info(f"Word 文档解析和处理完成: {file_path}")
             return {
                 "title": title,
                 "content": markdown_content,
                 "raw_markdown": True  # 标记为原始markdown内容，不需要再转换
             }
+        except FileNotFoundError:
+            logger.error(f"Word 文件未找到: {file_path}", exc_info=True)
+            raise FileParsingError(f"Word 文件未找到: {file_path}")
         except Exception as e:
             # 在实际应用中，应该使用日志记录错误
-            print(f"解析Word文档时出错: {e}")
+            logger.exception(f"使用 Mammoth 解析 Word 文档时发生未知错误: {e}")
             # 如果mammoth失败，尝试使用备选方法
             return self._parse_with_python_docx(file_path, title)
     
@@ -113,8 +125,7 @@ class WordParser(BaseParser):
         Returns:
             str: 处理后的markdown内容
         """
-        print("\n==== 开始智能处理 Markdown 内容 ====")
-        print(f"原始内容前200个字符: {markdown_content[:200]}")
+        logger.debug(f"==== 开始智能处理 Markdown 内容 ====\n原始内容前200个字符: {markdown_content[:200]}")
         
         # 1. 规范化专业术语
         terms = {
@@ -136,7 +147,7 @@ class WordParser(BaseParser):
         lines = markdown_content.split('\n')
         processed_lines = []
         
-        print(f"总行数: {len(lines)}")
+        logger.debug(f"智能处理：总行数: {len(lines)}")
         
         # 跟踪文档结构
         in_list = False
@@ -154,10 +165,11 @@ class WordParser(BaseParser):
             
             # 处理已有的标题行，确保格式正确
             if line.startswith('#'):
-                print(f"发现已有标题行: {line}")
+                logger.debug(f"智能处理：发现已有标题行: {line}")
                 # 确保标题格式正确（# 后有空格）
                 if not re.match(r'^#+\s', line):
                     line = re.sub(r'^(#+)', r'\1 ', line)
+                    logger.debug(f"智能处理：修正标题格式 -> {line}")
                 processed_lines.append(line)
                 prev_line_empty = False
                 in_list = False
@@ -165,7 +177,7 @@ class WordParser(BaseParser):
             
             # 检测列表项
             if re.match(r'^[\*\-\+]\s', line_stripped) or re.match(r'^\d+\.\s', line_stripped):
-                print(f"发现列表项: {line}")
+                logger.debug(f"智能处理：发现列表项: {line}")
                 in_list = True
                 processed_lines.append(line)
                 prev_line_empty = False
@@ -174,7 +186,7 @@ class WordParser(BaseParser):
             # 特殊处理：已知的章节标题
             known_sections = ["息屏显", "冷钱包", "5ATM防水保护", "3D弧面玻璃", "快充加持", "多功能配件", "数字身份"]
             if line_stripped in known_sections:
-                print(f"发现已知章节标题: {line} -> ## {line_stripped}")
+                logger.debug(f"智能处理：发现已知章节标题: {line} -> ## {line_stripped}")
                 line = f"## {line_stripped}"
                 processed_lines.append(line)
                 prev_line_empty = False
@@ -206,7 +218,7 @@ class WordParser(BaseParser):
                     is_potential_heading = True
             
             if is_potential_heading:
-                print(f"发现潜在标题: {line} -> ## {line_stripped}")
+                logger.debug(f"智能处理：发现潜在标题: {line} -> ## {line_stripped}")
                 # 判断标题级别：如果这是文档的第一个潜在标题，且前面没有 # 标题，则可能是一级标题
                 is_first_heading = all(not l.startswith('#') for l in lines[:i])
                 
@@ -233,8 +245,7 @@ class WordParser(BaseParser):
         markdown_content = re.sub(r'([^\n])\n(#+\s)', r'\1\n\n\2', markdown_content)
         markdown_content = re.sub(r'(#+\s[^\n]+)\n([^#\n\-\*\+\d])', r'\1\n\n\2', markdown_content)
         
-        print(f"处理后内容前200个字符: {markdown_content[:200]}")
-        print("==== 智能处理完成 ====\n")
+        logger.debug(f"处理后内容前200个字符: {markdown_content[:200]}\n==== 智能处理完成 ====")
         
         return markdown_content
     
@@ -248,6 +259,7 @@ class WordParser(BaseParser):
         Returns:
             str: 处理后的markdown内容
         """
+        logger.debug("开始 Markdown 后处理")
         # 规范化专业术语
         terms = {
             r'\bppg\b': 'PPG',
@@ -266,14 +278,19 @@ class WordParser(BaseParser):
         lines = markdown_content.split('\n')
         unique_lines = []
         seen_headings = set()
+        duplicates_removed = 0
         
         for line in lines:
             if line.startswith('#'):
                 heading_text = line.strip()
                 if heading_text in seen_headings:
+                    duplicates_removed += 1
                     continue
                 seen_headings.add(heading_text)
             unique_lines.append(line)
+        
+        if duplicates_removed > 0:
+            logger.debug(f"后处理：移除了 {duplicates_removed} 个重复标题")
         
         # 修复动态采集策略部分的格式
         markdown_content = '\n'.join(unique_lines)
@@ -289,9 +306,9 @@ class WordParser(BaseParser):
         markdown_content = re.sub(r'([^\n])\n(#+\s)', r'\1\n\n\2', markdown_content)
         markdown_content = re.sub(r'(#+\s[^\n]+)\n([^#\n])', r'\1\n\n\2', markdown_content)
         
+        logger.debug("Markdown 后处理完成")
         return markdown_content.strip()
     
-    # 修改 _fix_mammoth_conversion_issues 方法
     def _fix_mammoth_conversion_issues(self, markdown_content: str) -> str:
         """
         修复Mammoth转换中的常见问题
@@ -302,6 +319,7 @@ class WordParser(BaseParser):
         Returns:
             str: 修复后的markdown内容
         """
+        logger.debug("开始修复 Mammoth 转换问题")
         # 1. 修复重复的空行
         markdown_content = re.sub(r'\n{3,}', '\n\n', markdown_content)
         
@@ -442,6 +460,7 @@ class WordParser(BaseParser):
         # 确保段落之间有空行
         processed_content = re.sub(r'([^\n])\n([^#\n-])', r'\1\n\n\2', processed_content)
         
+        logger.debug("修复 Mammoth 转换问题完成")
         return processed_content.strip()
     
     def _fix_collection_strategy_format_md(self, markdown_content: str) -> str:
@@ -454,6 +473,7 @@ class WordParser(BaseParser):
         Returns:
             str: 修复后的markdown内容
         """
+        logger.debug("开始修复动态采集策略格式")
         # 查找动态采集策略部分
         strategy_pattern = r'(#+\s*动态采集策略.*?)(?=#+\s|$)'
         strategy_match = re.search(strategy_pattern, markdown_content, re.DOTALL)
@@ -491,6 +511,7 @@ class WordParser(BaseParser):
         Returns:
             List[Dict[str, Any]]: 结构化内容
         """
+        logger.debug("开始将 Markdown 转换为结构化内容")
         content = []
         lines = markdown_content.split('\n')
         
@@ -665,6 +686,7 @@ class WordParser(BaseParser):
                 "list_type": current_list_type or "unordered"
             })
         
+        logger.debug("Markdown 转换为结构化内容完成")
         return content
     
     def _parse_with_python_docx(self, file_path: str, title: str) -> Dict[str, Any]:
@@ -678,6 +700,7 @@ class WordParser(BaseParser):
         Returns:
             Dict[str, Any]: 解析结果
         """
+        logger.warning(f"尝试使用 python-docx 解析: {file_path}")
         content = []
         
         try:
@@ -826,28 +849,17 @@ class WordParser(BaseParser):
             # 在parse方法的return之前添加：
             content = self._fix_format_issues(content)
             
+            logger.info(f"使用 python-docx 解析成功: {file_path}")
             return {
                 "title": title,
                 "content": content
             }
         except ImportError:
-            return {
-                "title": title,
-                "content": [{
-                    "type": "text",
-                    "content": "无法解析Word文档，请安装python-docx库: pip install python-docx"
-                }]
-            }
+            logger.error("python-docx 未安装，无法使用备选解析方案")
+            raise FileParsingError("python-docx 未安装，无法解析 Word 文件")
         except Exception as e:
-            # 在实际应用中，应该使用日志记录错误
-            print(f"解析Word文档时出错: {e}")
-            return {
-                "title": title,
-                "content": [{
-                    "type": "text",
-                    "content": f"解析文件时出错: {e}"
-                }]
-            }
+            logger.exception(f"使用 python-docx 解析时发生错误: {e}")
+            raise FileParsingError(f"使用 python-docx 解析时发生错误: {e}") from e
     
     def _fix_collection_strategy_format(self, content):
         """

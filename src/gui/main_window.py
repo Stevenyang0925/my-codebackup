@@ -7,8 +7,12 @@ from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                             QProgressBar, QApplication, QLineEdit, QListWidget,
                             QListWidgetItem, QSplitter, QFrame, QComboBox,
                             QCheckBox, QGroupBox, QScrollArea, QTabWidget)
-from PyQt5.QtCore import Qt, QSize, QMimeData, QSettings
+from PyQt5.QtCore import Qt, QSize, QMimeData, QSettings, QThread, pyqtSignal
 from PyQt5.QtGui import QIcon, QDragEnterEvent, QDropEvent
+
+from ..core.converter import Converter
+from ..core.utils.logger import get_logger, setup_logging
+from ..core.utils.exceptions import FileParsingError, MarkdownGenerationError, FileWritingError, UnsupportedFileTypeError
 
 from .menu_bar import MenuBar
 from .tool_bar import ToolBar
@@ -17,6 +21,50 @@ from .file_dialogs import FileDialogs
 from .markdown_editor import MarkdownEditor
 from .settings_dialog import SettingsDialog
 
+# +++ 获取 logger 实例 +++
+logger = get_logger(__name__) # 通常使用 __name__ 获取模块名作为 logger 名
+
+# +++ (可选) 创建一个工作线程类来执行转换，避免阻塞GUI +++
+class ConversionWorker(QThread):
+    progress_updated = pyqtSignal(int)
+    status_updated = pyqtSignal(str)
+    conversion_finished = pyqtSignal(str, str) # input_path, output_path (or None if failed)
+
+    def __init__(self, converter, file_path, output_dir, output_filename, settings):
+        super().__init__()
+        self.converter = converter
+        self.file_path = file_path
+        self.output_dir = output_dir
+        self.output_filename = output_filename
+        self.settings = settings # 传递设置给转换器（如果需要）
+
+    def run(self):
+        try:
+            # --- 这里可以模拟进度更新，或者如果Converter支持回调则使用回调 ---
+            self.status_updated.emit(f"正在转换: {os.path.basename(self.file_path)}...")
+            self.progress_updated.emit(10) # 模拟开始
+
+            # --- 实际调用转换器 ---
+            # 注意：如果Converter需要设置，需要传递 self.settings
+            # output_file = self.converter.convert_file(self.file_path, self.output_dir, self.output_filename, settings=self.settings)
+            output_file = self.converter.convert_file(self.file_path, self.output_dir, self.output_filename) # 简化调用
+
+            self.progress_updated.emit(100) # 完成
+
+            if output_file:
+                self.status_updated.emit(f"转换成功: {os.path.basename(output_file)}")
+                self.conversion_finished.emit(self.file_path, output_file)
+            else:
+                # 错误已在Converter中记录，这里只更新状态
+                self.status_updated.emit(f"转换失败: {os.path.basename(self.file_path)}")
+                self.conversion_finished.emit(self.file_path, None)
+
+        except Exception as e: # 捕获线程中未预料的异常
+            logger.exception(f"转换线程中发生未预料的错误 for {self.file_path}", exc_info=True)
+            self.status_updated.emit(f"转换错误: {os.path.basename(self.file_path)}")
+            self.conversion_finished.emit(self.file_path, None)
+
+
 class DropArea(QFrame):
     """拖放区域类，用于接收拖放的文件"""
     
@@ -24,6 +72,7 @@ class DropArea(QFrame):
         super().__init__(parent)
         self.parent = parent
         self.setAcceptDrops(True)
+        logger.debug("DropArea initialized.") # +++ 添加日志 +++
         
         # 设置布局
         layout = QVBoxLayout(self)
@@ -51,21 +100,46 @@ class DropArea(QFrame):
     def dragEnterEvent(self, event: QDragEnterEvent):
         """拖动进入事件"""
         if event.mimeData().hasUrls():
+            logger.debug("Drag enter event accepted.") # +++ 添加日志 +++
             event.acceptProposedAction()
+    
+    def dragLeaveEvent(self, event):
+        """拖拽离开事件"""
+        logger.debug("Drag leave event.") # +++ 添加日志 +++
+        self.setStyleSheet("""
+            QFrame {
+                background-color: #F5F5F7;
+                border: 2px dashed #D1D1D6;
+                border-radius: 12px;
+            }
+        """)
     
     def dropEvent(self, event: QDropEvent):
         """放置事件"""
         if event.mimeData().hasUrls():
-            for url in event.mimeData().urls():
+            urls = event.mimeData().urls()
+            logger.info(f"Drop event with {len(urls)} files.") # +++ 添加日志 +++
+            for url in urls:
                 file_path = url.toLocalFile()
+                logger.debug(f"Adding dropped file: {file_path}") # +++ 添加日志 +++
                 self.parent.add_file_to_list(file_path)
             event.acceptProposedAction()
+            
+            # 恢复样式
+            self.setStyleSheet("""
+                QFrame {
+                    background-color: #F5F5F7;
+                    border: 2px dashed #D1D1D6;
+                    border-radius: 12px;
+                }
+            """)
 
 class MainWindow(QMainWindow):
     """主窗口类，应用程序的主界面"""
     
     def __init__(self):
         super().__init__()
+        logger.info("Initializing MainWindow...") # +++ 添加日志 +++
         
         # 设置窗口基本属性
         self.setWindowTitle("多格式文本转Markdown工具")
@@ -73,6 +147,10 @@ class MainWindow(QMainWindow):
         
         # 初始化文件对话框
         self.file_dialogs = FileDialogs()
+        
+        # +++ 初始化核心转换器 +++
+        self.converter = Converter()
+        self.conversion_threads = {} # 用于跟踪转换线程
         
         # 初始化设置
         self.settings = QSettings("MarkdownConverter", "Settings")
@@ -86,9 +164,11 @@ class MainWindow(QMainWindow):
         
         # 显示就绪状态
         self.statusBar.set_status("就绪")
+        logger.info("MainWindow initialized successfully.") # +++ 添加日志 +++
     
     def init_ui(self):
         """初始化UI组件"""
+        logger.debug("Initializing UI components...") # +++ 添加日志 +++
         # 创建菜单栏
         self.menu_bar = MenuBar(self)
         self.setMenuBar(self.menu_bar)
@@ -310,9 +390,11 @@ class MainWindow(QMainWindow):
         # 添加历史记录区域
         self.history_list = QListWidget()
         self.history_list.setVisible(False)  # 初始隐藏
+        logger.debug("UI components initialized.") # +++ 添加日志 +++
     
     def connect_signals(self):
         """连接信号和槽"""
+        logger.debug("Connecting signals and slots...") # +++ 添加日志 +++
         # 连接工具栏按钮
         if hasattr(self.tool_bar, 'connect_actions'):
             self.tool_bar.connect_actions(self)
@@ -326,9 +408,11 @@ class MainWindow(QMainWindow):
         
         # 连接历史记录双击事件
         self.history_list.itemDoubleClicked.connect(self.on_history_double_clicked)
+        logger.debug("Signals and slots connected.") # +++ 添加日志 +++
     
     def load_settings(self):
         """加载设置"""
+        logger.info("Loading settings...") # +++ 添加日志 +++
         # 加载常规设置
         self.default_dir = self.settings.value("general/default_dir", os.path.expanduser("~/Documents"))
         
@@ -343,9 +427,11 @@ class MainWindow(QMainWindow):
         self.editor_font_size = self.settings.value("appearance/editor_font_size", 14, type=int)
         self.live_preview = self.settings.value("appearance/live_preview", True, type=bool)
         self.preview_interval = self.settings.value("appearance/preview_interval", 2000, type=int)
+        logger.info("Settings loaded.") # +++ 添加日志 +++
     
     def browse_input_file(self):
         """打开文件选择对话框"""
+        logger.debug("Browse input file button clicked.") # +++ 添加日志 +++
         file_paths, _ = self.file_dialogs.get_open_file_names(
             self,
             "选择输入文件",
@@ -354,19 +440,25 @@ class MainWindow(QMainWindow):
         )
         
         if file_paths:
+            logger.info(f"Selected {len(file_paths)} files via dialog.") # +++ 添加日志 +++
             for file_path in file_paths:
                 self.add_file_to_list(file_path)
+        else:
+            logger.debug("No files selected from dialog.") # +++ 添加日志 +++
     
     def add_file_to_list(self, file_path):
         """将文件添加到文件列表"""
         if not file_path:
+            logger.warning("Attempted to add an empty file path to the list.") # +++ 添加日志 +++
             return
             
         # 检查文件是否已在列表中
         for i in range(self.file_list.count()):
             if self.file_list.item(i).data(Qt.UserRole) == file_path:
+                logger.debug(f"File already in list, skipping: {file_path}") # +++ 添加日志 +++
                 return
         
+        logger.info(f"Adding file to list: {file_path}") # +++ 添加日志 +++
         # 创建列表项
         item = QListWidgetItem()
         
@@ -388,6 +480,7 @@ class MainWindow(QMainWindow):
         
         # 自动设置输出路径（使用第一个文件所在目录）
         if self.file_list.count() == 1:
+            logger.debug("Setting default output path and filename based on first file.") # +++ 添加日志 +++
             dir_name = os.path.dirname(file_path)
             self.output_path_edit.setText(dir_name)
             
@@ -398,10 +491,12 @@ class MainWindow(QMainWindow):
     
     def batch_select_files(self):
         """批量选择文件"""
+        logger.debug("Batch select files button clicked.") # +++ 添加日志 +++
         self.browse_input_file()
     
     def browse_output_path(self):
         """打开保存文件对话框"""
+        logger.debug("Browse output path button clicked.") # +++ 添加日志 +++
         dir_path = self.file_dialogs.get_existing_directory(
             self,
             "选择保存目录",
@@ -409,25 +504,29 @@ class MainWindow(QMainWindow):
         )
         
         if dir_path:
+            logger.info(f"Output directory set to: {dir_path}") # +++ 添加日志 +++
             self.output_path_edit.setText(dir_path)
+        else:
+            logger.debug("No output directory selected.") # +++ 添加日志 +++
     
     def convert_to_markdown(self):
         """将选中的文件转换为Markdown格式"""
+        logger.info("Convert to Markdown button clicked.") # +++ 添加日志 +++
+
         if self.file_list.count() == 0:
+            logger.warning("Conversion attempt with no files selected.") # +++ 添加日志 +++
             self.statusBar.set_status("请先选择要转换的文件")
             return
         
         output_dir = self.output_path_edit.text()
-        output_filename = self.filename_edit.text()
-        
-        if not output_dir or not output_filename:
-            self.statusBar.set_status("请设置输出路径和文件名")
+        output_filename_template = self.filename_edit.text() # 可能包含占位符或用于单个文件
+
+        if not output_dir:
+            logger.warning("Conversion attempt with no output directory set.") # +++ 添加日志 +++
+            self.statusBar.set_status("请设置输出路径")
             return
-        
-        # 构建完整输出路径
-        output_path = os.path.join(output_dir, output_filename)
-        
-        # 获取转换设置
+
+        # --- 获取转换设置 (这部分逻辑不变) ---
         settings = {
             'heading_style': self.heading_style_combo.currentIndex(),
             'list_style': self.list_style_combo.currentIndex(),
@@ -436,43 +535,83 @@ class MainWindow(QMainWindow):
             'compress_images': self.compress_images_check.isChecked(),
             'image_quality': self.quality_slider.value()
         }
-        
-        # 获取选中的文件
+        logger.debug(f"Conversion settings: {settings}") # +++ 添加日志 +++
+
+        # --- 获取选中的文件 (这部分逻辑不变) ---
         selected_files = []
         for i in range(self.file_list.count()):
             item = self.file_list.item(i)
             file_path = item.data(Qt.UserRole)
             selected_files.append(file_path)
-        
-        # 这里应该调用核心功能模块进行转换
-        self.statusBar.set_status("正在转换...")
-        self.statusBar.show_progress(True)
-        self.statusBar.set_progress(0)
-        
-        # TODO: 实际的转换逻辑将在核心功能模块开发完成后集成
-        # 这里仅作为示例，模拟转换过程
-        import time
-        for i in range(101):
-            time.sleep(0.05)  # 模拟处理时间
-            self.statusBar.set_progress(i)
-            QApplication.processEvents()  # 保持UI响应
-        
-        self.statusBar.set_status(f"转换完成，已保存到 {output_path}")
-        self.statusBar.show_progress(False)
-        
-        # 模拟显示转换结果
-        self.markdown_editor.set_text("# 转换结果\n\n这是从文件转换得到的Markdown内容示例。\n\n实际内容将在核心功能模块开发完成后显示。")
-        
-        # 添加到历史记录
-        self.add_to_history(output_filename)
-    
+        logger.info(f"Starting conversion for {len(selected_files)} files.") # +++ 添加日志 +++
+
+        # --- 使用线程进行转换 ---
+        self.statusBar.show_progress(True) # 显示总进度条（如果需要）
+        self.statusBar.set_progress(0) # 重置总进度
+        self._conversion_count = 0
+        self._total_files = len(selected_files)
+
+        for file_path in selected_files:
+            # 为每个文件确定输出文件名
+            base_name = os.path.basename(file_path)
+            file_name_only, _ = os.path.splitext(base_name)
+            # 如果模板为空或只有一个文件，使用模板；否则基于输入文件名生成
+            if len(selected_files) == 1 and output_filename_template:
+                 current_output_filename = output_filename_template
+            else:
+                 current_output_filename = f"{file_name_only}.md"
+
+            logger.info(f"Queueing conversion for: {file_path} -> {os.path.join(output_dir, current_output_filename)}") # +++ 添加日志 +++
+
+            # 创建并启动转换线程
+            worker = ConversionWorker(self.converter, file_path, output_dir, current_output_filename, settings)
+            worker.status_updated.connect(self.statusBar.set_status)
+            # worker.progress_updated.connect(self.update_single_file_progress) # 如果需要单文件进度
+            worker.conversion_finished.connect(self.on_conversion_finished)
+            self.conversion_threads[file_path] = worker # 存储线程引用
+            worker.start()
+
+    # +++ 新增：处理单个文件转换完成的槽函数 +++
+    def on_conversion_finished(self, input_path: str, output_path: Optional[str]):
+        """当一个文件的转换线程结束时调用"""
+        logger.debug(f"Conversion finished signal received for {input_path}. Output: {output_path}")
+        self._conversion_count += 1
+        progress = int((self._conversion_count / self._total_files) * 100)
+        self.statusBar.set_progress(progress)
+
+        if output_path:
+            # 转换成功
+            logger.info(f"Successfully converted {input_path} to {output_path}")
+            # 添加到历史记录
+            self.add_to_history(os.path.basename(output_path))
+            # (可选) 在编辑器中显示最后一个成功转换的文件
+            if self._conversion_count == self._total_files or self._total_files == 1:
+                 self.open_markdown_file(output_path) # 显示结果
+        else:
+            # 转换失败 (错误已在Converter或线程中记录)
+            logger.warning(f"Conversion failed for {input_path}")
+            # (可选) 更新文件列表项的视觉状态以指示失败
+
+        # 清理完成的线程
+        if input_path in self.conversion_threads:
+            del self.conversion_threads[input_path]
+
+        # 所有文件处理完毕
+        if self._conversion_count == self._total_files:
+            logger.info("All conversions finished.")
+            final_status = f"批量转换完成 ({self._total_files - len(self.conversion_threads)} 成功, {len(self.conversion_threads)} 失败)"
+            self.statusBar.set_status(final_status)
+            self.statusBar.show_progress(False) # 隐藏进度条
+
     def add_to_history(self, filename):
         """添加文件到历史记录"""
+        logger.info(f"Adding to history: {filename}") # +++ 添加日志 +++
         self.history_list.addItem(filename)
     
     def on_file_double_clicked(self, item):
         """文件列表项双击事件"""
         file_path = item.data(Qt.UserRole)
+        logger.debug(f"File list item double-clicked: {file_path}") # +++ 添加日志 +++
         # 根据文件类型执行不同操作
         _, ext = os.path.splitext(file_path)
         if ext.lower() in ['.md', '.markdown']:
@@ -488,22 +627,26 @@ class MainWindow(QMainWindow):
     def on_history_double_clicked(self, item):
         """历史记录项双击事件"""
         filename = item.text()
+        logger.debug(f"History list item double-clicked: {filename}") # +++ 添加日志 +++
         output_dir = self.output_path_edit.text()
         file_path = os.path.join(output_dir, filename)
         self.open_markdown_file(file_path)
     
     def new_file(self):
         """创建新文件"""
+        logger.info("New file action triggered.") # +++ 添加日志 +++
         self.markdown_editor.set_text("")
         self.statusBar.set_file_info("", "", False)
         self.statusBar.set_status("新建文件")
     
     def open_file(self):
         """打开文件"""
+        logger.info("Open file action triggered.") # +++ 添加日志 +++
         self.open_markdown_file()
     
     def save_markdown(self):
         """保存Markdown文件"""
+        logger.info("Save markdown action triggered.") # +++ 添加日志 +++
         output_dir = self.output_path_edit.text()
         output_filename = self.filename_edit.text()
         
@@ -523,22 +666,30 @@ class MainWindow(QMainWindow):
                     f.write(self.markdown_editor.get_text())
                 self.statusBar.set_status(f"文件已保存: {file_path}")
                 self.statusBar.set_file_info(file_path, "Markdown", False)
+                logger.info(f"Markdown file saved successfully: {file_path}") # +++ 添加日志 +++
                 return True
             except Exception as e:
+                logger.error(f"Failed to save markdown file: {file_path}", exc_info=True) # +++ 修改日志记录 +++
                 self.statusBar.set_status(f"保存文件失败: {str(e)}")
-        
+        else:
+            logger.debug("Save markdown cancelled by user.") # +++ 添加日志 +++
+
         return False
     
     def open_markdown_file(self, file_path=None):
         """打开Markdown文件"""
-        if not file_path:
+        action_triggered = file_path is None # 判断是用户点击菜单触发还是内部调用
+        if action_triggered:
+            logger.debug("Open markdown file dialog triggered.") # +++ 添加日志 +++
             file_path, _ = self.file_dialogs.get_open_file_name(
                 self,
                 "打开Markdown文件",
                 self.default_dir,
                 "Markdown文件 (*.md)"
             )
-        
+        else:
+             logger.debug(f"Opening markdown file internally: {file_path}") # +++ 添加日志 +++
+
         if file_path and os.path.exists(file_path):
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
@@ -546,113 +697,20 @@ class MainWindow(QMainWindow):
                 self.markdown_editor.set_text(content)
                 self.statusBar.set_status(f"已打开: {file_path}")
                 self.statusBar.set_file_info(file_path, "Markdown", False)
+                logger.info(f"Markdown file opened successfully: {file_path}") # +++ 添加日志 +++
                 return True
             except Exception as e:
+                logger.error(f"Failed to open markdown file: {file_path}", exc_info=True) # +++ 修改日志记录 +++
                 self.statusBar.set_status(f"打开文件失败: {str(e)}")
-        
+        elif action_triggered:
+             logger.debug("Open markdown cancelled or file not found.") # +++ 添加日志 +++
+
         return False
 
-
-class DropArea(QFrame):
-    """文件拖放区域"""
-    
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.parent = parent
-        self.setAcceptDrops(True)
-        
-        # 设置布局
-        layout = QVBoxLayout(self)
-        layout.setAlignment(Qt.AlignCenter)
-        
-        # 添加图标和文字
-        icon_label = QLabel("📁")
-        icon_label.setStyleSheet("font-size: 36px;")
-        
-        text_label = QLabel("拖拽文件到此处")
-        text_label.setAlignment(Qt.AlignCenter)
-        
-        or_label = QLabel("或")
-        or_label.setAlignment(Qt.AlignCenter)
-        
-        select_button = QPushButton("选择文件")
-        select_button.setFixedWidth(100)
-        select_button.clicked.connect(self.parent.browse_input_file)
-        
-        layout.addWidget(icon_label, 0, Qt.AlignCenter)
-        layout.addWidget(text_label)
-        layout.addWidget(or_label)
-        layout.addWidget(select_button, 0, Qt.AlignCenter)
-    
-    def dragEnterEvent(self, event: QDragEnterEvent):
-        """拖拽进入事件"""
-        if event.mimeData().hasUrls():
-            event.acceptProposedAction()
-            self.setStyleSheet("""
-                QFrame {
-                    background-color: #F5F5F7;
-                    border: 2px dashed #007AFF;
-                    border-radius: 12px;
-                }
-            """)
-    
-    def dragLeaveEvent(self, event):
-        """拖拽离开事件"""
-        self.setStyleSheet("""
-            QFrame {
-                background-color: #F5F5F7;
-                border: 2px dashed #D1D1D6;
-                border-radius: 12px;
-            }
-        """)
-    
-    def dropEvent(self, event: QDropEvent):
-        """放置事件"""
-        if event.mimeData().hasUrls():
-            event.acceptProposedAction()
-            
-            # 恢复样式
-            self.setStyleSheet("""
-                QFrame {
-                    background-color: #F5F5F7;
-                    border: 2px dashed #D1D1D6;
-                    border-radius: 12px;
-                }
-            """)
-            
-            # 处理文件
-            for url in event.mimeData().urls():
-                file_path = url.toLocalFile()
-                if os.path.isfile(file_path):
-                    self.parent.add_file_to_list(file_path)
-
-
-# 添加apply_settings方法
-def apply_settings(self):
-    """应用设置"""
-    # 从QSettings加载设置
-    settings = QSettings("MarkdownConverter", "Settings")
-    
-    # 应用常规设置
-    default_dir = settings.value("general/default_dir", os.path.expanduser("~/Documents"))
-    self.file_dialogs.set_default_directory(default_dir)
-    
-    # 应用外观设置
-    editor_font_size = settings.value("appearance/editor_font_size", 14, type=int)
-    if hasattr(self, 'markdown_editor'):
-        self.markdown_editor.set_font_size(editor_font_size)
-    
-    # 应用实时预览设置
-    live_preview = settings.value("appearance/live_preview", True, type=bool)
-    preview_interval = settings.value("appearance/preview_interval", 2000, type=int)
-    if hasattr(self, 'markdown_editor'):
-        self.markdown_editor.set_live_preview(live_preview, preview_interval)
-    
-    # 更新状态栏
-    self.statusBar().showMessage("设置已应用", 3000)
-
-
 if __name__ == "__main__":
+    # +++ 在创建 QApplication 之前配置日志 +++
+    setup_logging()
+
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()

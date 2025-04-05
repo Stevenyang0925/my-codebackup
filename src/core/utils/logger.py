@@ -6,92 +6,84 @@ import os
 import logging
 from datetime import datetime
 from typing import Optional
+from logging.handlers import RotatingFileHandler
 
-class Logger:
+# --- 配置区 ---
+LOG_DIR = "logs"  # 日志文件存放目录 (可以考虑从配置读取)
+LOG_FILENAME = "app.log"  # 日志文件名
+MAX_BYTES = 10 * 1024 * 1024  # 日志文件最大大小 (10MB)
+BACKUP_COUNT = 5  # 保留的备份文件数量
+CONSOLE_LOG_LEVEL = logging.INFO  # 控制台输出级别
+FILE_LOG_LEVEL = logging.DEBUG  # 文件输出级别
+LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+# --- 配置区结束 ---
+
+# 确保日志目录存在
+if not os.path.exists(LOG_DIR):
+    try:
+        os.makedirs(LOG_DIR)
+    except OSError as e:
+        print(f"Error creating log directory '{LOG_DIR}': {e}")
+        # 如果无法创建日志目录，可以选择退出或回退到无文件日志
+        LOG_DIR = None # 禁用文件日志
+
+log_file_path = os.path.join(LOG_DIR, LOG_FILENAME) if LOG_DIR else None
+
+# 创建或获取名为 'app' 的 logger
+# 使用 getLogger() 而不是 getLogger(__name__) 可以方便地在全局获取同一个 logger 实例
+logger = logging.getLogger("app")
+logger.setLevel(logging.DEBUG)  # 设置 logger 能处理的最低级别
+
+# --- 控制台 Handler ---
+console_handler = logging.StreamHandler()
+console_handler.setLevel(CONSOLE_LOG_LEVEL)
+console_formatter = logging.Formatter(LOG_FORMAT, datefmt=DATE_FORMAT)
+console_handler.setFormatter(console_formatter)
+logger.addHandler(console_handler)
+
+# --- 文件 Handler (如果目录创建成功) ---
+if log_file_path:
+    # 使用 RotatingFileHandler 实现日志文件轮转
+    file_handler = RotatingFileHandler(
+        log_file_path,
+        maxBytes=MAX_BYTES,
+        backupCount=BACKUP_COUNT,
+        encoding='utf-8' # 明确指定编码
+    )
+    file_handler.setLevel(FILE_LOG_LEVEL)
+    file_formatter = logging.Formatter(LOG_FORMAT, datefmt=DATE_FORMAT)
+    file_handler.setFormatter(file_formatter)
+    logger.addHandler(file_handler)
+else:
+    logger.warning("File logging disabled because log directory could not be created.")
+
+
+# --- 提供一个简单的获取 logger 的函数 ---
+def get_logger(name: str = "app"):
     """
-    日志记录器，提供文件和控制台日志记录功能
+    获取配置好的 logger 实例。
+
+    Args:
+        name (str): logger 的名称，建议使用模块名 (__name__)。
+                    如果使用默认的 'app'，则获取全局配置的 logger。
+                    如果使用其他名称，会继承 'app' logger 的配置。
+
+    Returns:
+        logging.Logger: 配置好的 logger 实例。
     """
-    
-    def __init__(self, log_level: str = "INFO", log_file: Optional[str] = None, console_logging: bool = True):
-        """
-        初始化日志记录器
-        
-        Args:
-            log_level: 日志级别，可选值为DEBUG, INFO, WARNING, ERROR, CRITICAL
-            log_file: 日志文件路径，如果为None则使用默认路径
-            console_logging: 是否输出到控制台
-        """
-        # 设置日志级别
-        self.log_level = getattr(logging, log_level.upper())
-        
-        # 创建日志记录器
-        self.logger = logging.getLogger("markdown_converter")
-        self.logger.setLevel(self.log_level)
-        
-        # 清除已有的处理器
-        if self.logger.handlers:
-            self.logger.handlers.clear()
-        
-        # 设置日志格式
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-            datefmt="%Y-%m-%d %H:%M:%S"
-        )
-        
-        # 添加控制台处理器
-        if console_logging:
-            console_handler = logging.StreamHandler()
-            console_handler.setLevel(self.log_level)
-            console_handler.setFormatter(formatter)
-            self.logger.addHandler(console_handler)
-        
-        # 添加文件处理器
-        if log_file is None:
-            # 默认日志文件路径
-            log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), "logs")
-            os.makedirs(log_dir, exist_ok=True)
-            log_file = os.path.join(log_dir, f"app_{datetime.now().strftime('%Y%m%d')}.log")
-        
-        # 确保日志目录存在
-        os.makedirs(os.path.dirname(log_file), exist_ok=True)
-        
-        file_handler = logging.FileHandler(log_file, encoding="utf-8")
-        file_handler.setLevel(self.log_level)
-        file_handler.setFormatter(formatter)
-        self.logger.addHandler(file_handler)
-    
-    def debug(self, message: str):
-        """记录调试信息"""
-        self.logger.debug(message)
-    
-    def info(self, message: str):
-        """记录一般信息"""
-        self.logger.info(message)
-    
-    def warning(self, message: str):
-        """记录警告信息"""
-        self.logger.warning(message)
-    
-    def error(self, message: str):
-        """记录错误信息"""
-        self.logger.error(message)
-    
-    def critical(self, message: str):
-        """记录严重错误信息"""
-        self.logger.critical(message)
-    
-    def exception(self, message: str):
-        """记录异常信息，包含堆栈跟踪"""
-        self.logger.exception(message)
-    
-    def set_level(self, level: str):
-        """
-        设置日志级别
-        
-        Args:
-            level: 日志级别，可选值为DEBUG, INFO, WARNING, ERROR, CRITICAL
-        """
-        new_level = getattr(logging, level.upper())
-        self.logger.setLevel(new_level)
-        for handler in self.logger.handlers:
-            handler.setLevel(new_level)
+    # 如果需要为不同模块创建不同的 logger，可以使用 logging.getLogger(name)
+    # 这里为了简单，暂时都返回同一个根 logger 'app'
+    # 如果需要更细粒度的控制，可以改为 return logging.getLogger(name)
+    return logger
+
+# --- 移除旧的 Logger 类 ---
+# class Logger:
+#     ... (旧代码)
+
+# --- 可以在这里添加一些初始日志，确认配置生效 ---
+# logger.debug("Logger initialized (debug level).")
+# logger.info("Logger initialized (info level).")
+# logger.warning("Logger initialized (warning level).")
+# logger.error("Logger initialized (error level).")
+# logger.critical("Logger initialized (critical level).")

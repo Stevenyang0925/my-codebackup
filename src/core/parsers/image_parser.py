@@ -6,6 +6,11 @@ import os
 import re
 from typing import Dict, Any, List, Tuple
 from .base_parser import BaseParser
+from ..utils.logger import get_logger
+from ..utils.exceptions import FileParsingError
+
+# 获取 logger 实例
+logger = get_logger(__name__)
 
 class ImageParser(BaseParser):
     """
@@ -32,63 +37,67 @@ class ImageParser(BaseParser):
             Dict[str, Any]: 解析结果
         """
         if not self.is_supported(file_path):
-            raise ValueError(f"不支持的文件类型: {file_path}")
+            logger.error(f"不支持的文件类型传递给 ImageParser: {file_path}")
+            raise FileParsingError(f"ImageParser 不支持的文件类型: {file_path}")
         
         title = self.extract_title(file_path)
         content = []
-        
+        preprocessed_path = None
+        logger.info(f"开始解析图片文件: {file_path}")
+
         try:
             # 导入必要的库
+            logger.debug("尝试导入图像处理和OCR库 (cv2, numpy, PIL, paddleocr)")
             import cv2
             import numpy as np
-            from PIL import Image, ImageEnhance
+            from PIL import Image
             from paddleocr import PaddleOCR
-            
+            logger.debug("图像处理和OCR库导入成功")
+
             # 打开图片
+            logger.debug(f"使用 PIL 打开图片: {file_path}")
             image = Image.open(file_path)
             
             # 图像预处理
+            logger.debug("开始图像预处理 (转BGR, 灰度化, 自适应阈值, 降噪)")
             img_cv = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-            
-            # 转灰度
             gray = cv2.cvtColor(img_cv, cv2.COLOR_BGR2GRAY)
-            
-            # 应用自适应阈值
             binary = cv2.adaptiveThreshold(
                 gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
                 cv2.THRESH_BINARY, 11, 2
             )
-            
-            # 降噪
             denoised = cv2.fastNlMeansDenoising(binary, None, 10, 7, 21)
-            
-            # 可选：形态学操作以改善文本
             kernel = np.ones((1, 1), np.uint8)
             denoised = cv2.morphologyEx(denoised, cv2.MORPH_CLOSE, kernel)
+            logger.debug("图像预处理完成")
             
             # 保存预处理后的图像
             preprocessed_path = file_path + ".preprocessed.jpg"
+            logger.debug(f"保存预处理后的图像到: {preprocessed_path}")
             cv2.imwrite(preprocessed_path, denoised)
             
             # 初始化PaddleOCR
+            logger.debug("初始化 PaddleOCR (lang=ch, use_angle_cls=True, use_gpu=False)")
             ocr = PaddleOCR(
                 use_angle_cls=True,  # 使用方向分类器
                 lang="ch",           # 中文模型
                 use_gpu=False,       # 不使用GPU
                 show_log=False       # 不显示日志
             )
+            logger.debug("PaddleOCR 初始化完成")
             
             # 进行OCR识别
+            logger.info(f"开始对预处理图像进行 OCR 识别: {preprocessed_path}")
             result = ocr.ocr(preprocessed_path, cls=True)
-            
-            # 删除预处理图像
-            os.remove(preprocessed_path)
+            logger.info("OCR 识别完成")
             
             # 提取识别文本
             text_lines = []
-            for line in result[0]:
-                if line:
-                    text_lines.append(line[1][0])  # 获取识别的文本内容
+            if result and result[0]:
+                for item in result[0]:
+                    if item and len(item) == 2 and isinstance(item[1], (tuple, list)) and len(item[1]) > 0:
+                        text_lines.append(item[1][0])  # 获取识别的文本内容
+            logger.debug(f"从OCR结果中提取到 {len(text_lines)} 行文本")
             
             # 将识别的文本合并为一个字符串
             text = "\n".join(text_lines)
@@ -102,38 +111,36 @@ class ImageParser(BaseParser):
             
             # 文本处理
             if text.strip():
-                # 处理识别出的文本
+                logger.debug("开始处理识别出的文本结构")
                 processed_content = self._process_text_structure(text)
                 content.extend(processed_content)
+                logger.debug("文本结构处理完成")
             else:
+                logger.warning(f"未能从图片中识别出有效文字: {file_path}")
                 content.append({
                     "type": "text",
                     "content": "未能从图片中识别出文字。"
                 })
             
+            logger.info(f"成功解析图片文件: {file_path}")
             return {
                 "title": title,
                 "content": content
             }
             
-        except ImportError as e:
-            return {
-                "title": title,
-                "content": [{
-                    "type": "text",
-                    "content": f"无法解析图片文件，缺少必要的库: {e}"
-                }]
-            }
+        except ImportError as e_import:
+            logger.error(f"解析图片失败：缺少必要的库 ({e_import.name})。请安装: pip install opencv-python numpy Pillow paddleocr paddlepaddle", exc_info=False)
+            raise FileParsingError(f"缺少必要的图像处理或OCR库: {e_import.name}") from e_import
         except Exception as e:
-            # 在实际应用中，应该使用日志记录错误
-            print(f"解析图片文件时出错: {e}")
-            return {
-                "title": title,
-                "content": [{
-                    "type": "text",
-                    "content": f"解析文件时出错: {e}"
-                }]
-            }
+            logger.exception(f"解析图片文件时发生未预料的错误: {file_path}", exc_info=True)
+            raise FileParsingError(f"解析图片时出错: {e}") from e
+        finally:
+            if preprocessed_path and os.path.exists(preprocessed_path):
+                try:
+                    logger.debug(f"删除预处理临时文件: {preprocessed_path}")
+                    os.remove(preprocessed_path)
+                except OSError as e_remove:
+                    logger.warning(f"删除临时文件 {preprocessed_path} 失败: {e_remove}")
     
     def _detect_doc_type(self, text: str) -> Dict[str, Any]:
         """
@@ -145,6 +152,7 @@ class ImageParser(BaseParser):
         Returns:
             Dict[str, Any]: 文档类型信息
         """
+        logger.debug("开始执行 _detect_doc_type")
         doc_type_info = {
             "type": None,
             "level_keywords": [],
@@ -197,6 +205,7 @@ class ImageParser(BaseParser):
                 r"销售思路", r"交互建议", r"性能需求", r"其他要求"
             ]
         
+        logger.debug("执行 _detect_doc_type 完成")
         return doc_type_info
     
     def _estimate_heading_level(self, line: str, doc_type_info: Dict[str, Any], previous_headings: List[Tuple[int, str]]) -> int:
@@ -211,6 +220,7 @@ class ImageParser(BaseParser):
         Returns:
             int: 标题层级
         """
+        logger.debug(f"开始执行 _estimate_heading_level for line: '{line[:50]}...'")
         # 默认为二级标题
         level = 2
         
@@ -248,6 +258,7 @@ class ImageParser(BaseParser):
             if level > prev_level + 1:
                 level = prev_level + 1
         
+        logger.debug("执行 _estimate_heading_level 完成")
         return min(level, 4)  # 最大不超过4级标题
     
     def _process_text_structure(self, text: str) -> List[Dict[str, Any]]:
@@ -260,6 +271,7 @@ class ImageParser(BaseParser):
         Returns:
             List[Dict[str, Any]]: 处理后的结构化内容
         """
+        logger.debug("开始执行 _process_text_structure")
         # 基本OCR错误修正
         corrections = {
             "盗源": "资源",
@@ -306,10 +318,13 @@ class ImageParser(BaseParser):
         
         # 如果没有内容，返回空列表
         if not lines:
+            logger.debug("_process_text_structure: 输入文本为空或只有空白行")
             return []
         
         # 检测文档类型
+        logger.debug(f"_process_text_structure: 检测文档类型前，行数: {len(lines)}")
         doc_type_info = self._detect_doc_type("\n".join(lines))
+        logger.debug(f"_process_text_structure: 检测到的文档类型信息: {doc_type_info}")
         
         # 处理文本结构，识别标题和列表
         structured_content = []
@@ -321,7 +336,8 @@ class ImageParser(BaseParser):
         current_paragraph = ""
         in_list = False
         
-        for line in lines:
+        for i, line in enumerate(lines):
+            logger.debug(f"_process_text_structure: 处理行 {i+1}/{len(lines)}: '{line[:50]}...'")
             # 检查是否是列表项 (以'-', '*', '•'或数字+'.'开头)
             list_match = re.match(r'^([-*•] |\d+\.\s+)(.*)$', line)
             
@@ -340,15 +356,15 @@ class ImageParser(BaseParser):
                         break
             
             if list_match:
-                # 如果有累积的段落，先添加
                 if current_paragraph:
+                    logger.debug("_process_text_structure: 添加累积段落 (列表前)")
                     structured_content.append({
                         "type": "text",
                         "content": current_paragraph
                     })
                     current_paragraph = ""
                 
-                # 添加列表项
+                logger.debug("_process_text_structure: 添加列表项")
                 structured_content.append({
                     "type": "list_item",
                     "content": line
@@ -356,8 +372,8 @@ class ImageParser(BaseParser):
                 in_list = True
             
             elif is_heading or contains_keyword:
-                # 如果有累积的段落，先添加
                 if current_paragraph:
+                    logger.debug("_process_text_structure: 添加累积段落 (标题前)")
                     structured_content.append({
                         "type": "text",
                         "content": current_paragraph
@@ -367,7 +383,7 @@ class ImageParser(BaseParser):
                 # 估计标题层级
                 level = self._estimate_heading_level(line, doc_type_info, headings)
                 
-                # 添加标题
+                logger.debug(f"_process_text_structure: 添加标题 (level {level})")
                 structured_content.append({
                     "type": "heading",
                     "level": level,
@@ -404,9 +420,11 @@ class ImageParser(BaseParser):
         
         # 添加最后一个段落（如果有）
         if current_paragraph:
+            logger.debug("_process_text_structure: 添加最后一个累积段落")
             structured_content.append({
                 "type": "text",
                 "content": current_paragraph
             })
         
+        logger.debug(f"_process_text_structure 完成，生成 {len(structured_content)} 个结构化内容块")
         return structured_content
